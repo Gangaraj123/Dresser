@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dresser — Complete UI & Development Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#E5E3DE;color:#1A1A1A;padding:40px 16px}
+
+.page-title{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:600;text-align:center;color:#1A1A1A;margin-bottom:2px}
+.page-sub{text-align:center;font-size:12px;color:#999;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.page-note{text-align:center;font-size:13px;color:#777;max-width:600px;margin:0 auto 48px;line-height:1.6}
+
+.section{max-width:1600px;margin:0 auto 56px}
+.sec-t{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#1A1A1A;margin-bottom:4px}
+.sec-d{font-size:11px;color:#999;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+.row{display:flex;gap:28px;overflow-x:auto;padding:0 0 20px;-webkit-overflow-scrolling:touch}
+.row::-webkit-scrollbar{height:5px}.row::-webkit-scrollbar-thumb{background:#ccc;border-radius:3px}
+
+/* Phone */
+.phone{flex-shrink:0;width:390px;height:844px;background:#FFFFFF;border-radius:48px;border:7px solid #D4D1CB;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 12px 48px rgba(0,0,0,0.10),0 2px 8px rgba(0,0,0,0.04)}
+.p-label{text-align:center;font-size:11px;font-weight:600;color:#888;margin-top:10px;letter-spacing:1.5px;text-transform:uppercase}
+.p-note{text-align:center;font-size:11px;color:#aaa;margin-top:3px;max-width:390px;line-height:1.4}
+
+.sb{display:flex;justify-content:space-between;align-items:center;padding:16px 28px 8px;font-size:12px;font-weight:600;color:#1A1A1A}
+.sb-r{display:flex;gap:5px}.sb-d{width:3.5px;height:3.5px;border-radius:50%;background:#1A1A1A}
+.sc{flex:1;overflow-y:auto;padding:0 20px 110px}.sc::-webkit-scrollbar{display:none}
+
+/* Frosted nav */
+.bn{position:absolute;bottom:0;left:0;right:0;background:rgba(255,255,255,0.88);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid #F0F0F0;display:flex;justify-content:space-around;padding:6px 6px 32px}
+.bn-i{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:9px;font-weight:500;color:#BBB;letter-spacing:0.3px;padding:6px 14px;border-radius:14px}
+.bn-i.on{color:#1A1A1A;background:#F5F5F5}
+.bn-ic{width:22px;height:22px}
+
+/* Shared components */
+.pill-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 28px;border-radius:50px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;border:none;width:100%}
+.pill-btn-dark{background:#1A1A1A;color:#fff}
+.pill-btn-light{background:#fff;color:#1A1A1A;border:1.5px solid #E8E8E8}
+.pill-btn-ghost{background:#fff;color:#1A1A1A;border:1px solid #E8E8E8;padding:10px 18px;font-size:12px;font-weight:500;box-shadow:0 1px 3px rgba(0,0,0,0.03);width:auto}
+
+.p-chip{flex-shrink:0;padding:8px 18px;border-radius:50px;font-size:12px;font-weight:500;background:#fff;color:#666;border:1px solid #E8E8E8;white-space:nowrap}
+.p-chip.on{background:#1A1A1A;color:#fff;border-color:#1A1A1A;font-weight:600}
+
+.p-search{display:flex;align-items:center;gap:10px;background:#F5F5F5;border-radius:50px;padding:12px 18px}
+.p-search input{border:none;background:none;font-size:14px;color:#1A1A1A;outline:none;width:100%;font-family:inherit}
+.p-search input::placeholder{color:#BBB}
+
+.p-tag{display:inline-flex;align-items:center;gap:5px;padding:5px 14px;border-radius:50px;font-size:11px;font-weight:500;margin:0 5px 7px 0}
+
+/* Garment card */
+.g-card{border-radius:18px;overflow:hidden;background:#fff;border:1px solid #F0F0F0}
+.g-img{aspect-ratio:3/4;background:#F5F5F5;position:relative;display:flex;align-items:center;justify-content:center;font-size:40px;color:#ccc;opacity:0.5}
+.g-fav{position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center}
+.g-badge{position:absolute;bottom:10px;left:10px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);padding:4px 12px;border-radius:50px;font-size:10px;font-weight:600;color:#666}
+.g-score{position:absolute;bottom:10px;right:10px;backdrop-filter:blur(8px);padding:4px 8px;border-radius:50px;font-size:9px;font-weight:600}
+.g-info{padding:12px 14px}
+
+/* Outfit card */
+.o-card{background:#fff;border:1px solid #F0F0F0;border-radius:20px;padding:16px;margin-bottom:14px}
+.o-items{display:flex;gap:10px;margin-bottom:12px}
+.o-item{width:64px;height:80px;border-radius:14px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:24px;color:#ccc;opacity:0.5;border:1px solid #F0F0F0}
+.o-score{padding:5px 12px;border-radius:50px;font-size:11px;font-weight:600;letter-spacing:0.3px}
+
+/* Chat */
+.c-msg{max-width:82%;padding:14px 18px;border-radius:20px;font-size:13px;line-height:1.6;margin-bottom:10px}
+.c-msg-u{margin-left:auto;background:#1A1A1A;color:#fff;border-bottom-right-radius:6px}
+.c-msg-a{background:#F5F5F5;color:#1A1A1A;border-bottom-left-radius:6px}
+.c-al{font-size:10px;font-weight:600;color:#C4985A;display:flex;align-items:center;gap:4px;margin-bottom:6px;letter-spacing:0.5px;text-transform:uppercase}
+
+/* Discover card */
+.d-card{background:#fff;border:1px solid #F0F0F0;border-radius:20px;overflow:hidden;margin-bottom:14px}
+.d-img{height:180px;background:#F5F5F5;position:relative;display:flex;align-items:center;justify-content:center;font-size:44px;color:#ccc;opacity:0.3}
+
+/* Dev guide */
+.dev-section{max-width:1200px;margin:0 auto 56px}
+.dev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:16px}
+.dev-card{background:#fff;border-radius:16px;padding:20px 22px;border:1px solid #eee}
+.dev-card h3{font-size:13px;font-weight:700;color:#1A1A1A;margin-bottom:10px;letter-spacing:0.5px;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.dev-card h3 .dot{width:8px;height:8px;border-radius:50%}
+.dev-card p{font-size:13px;color:#666;line-height:1.7}
+.dev-card code{font-family:'JetBrains Mono',monospace;font-size:11px;background:#F5F5F5;padding:2px 6px;border-radius:4px;color:#1A1A1A}
+.dev-card pre{font-family:'JetBrains Mono',monospace;font-size:11px;background:#1A1A1A;color:#E8E8E8;padding:14px 16px;border-radius:10px;margin-top:10px;overflow-x:auto;line-height:1.6}
+
+/* Color ref */
+.c-bar{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
+.c-s{display:flex;align-items:center;gap:5px;background:#fff;padding:6px 12px;border-radius:8px;border:0.5px solid #eee}
+.c-s-d{width:16px;height:16px;border-radius:3px}
+.c-s-l{font-size:10px;color:#888;font-family:'JetBrains Mono',monospace}
+</style>
+</head>
+<body>
+
+<h1 class="page-title">Dresser</h1>
+<p class="page-sub">Complete UI & Development Reference</p>
+<p class="page-note">All screens in B&W monochrome with purposeful accent colors. Includes Flutter implementation guide, component specs, color system, and architecture notes. Feed this entire file to Claude CLI.</p>
+
+<!-- Color palette -->
+<div class="c-bar">
+  <div class="c-s"><div class="c-s-d" style="background:#1A1A1A"></div><div class="c-s-l">#1A1A1A primary</div></div>
+  <div class="c-s"><div class="c-s-d" style="background:#FFF;border:1px solid #eee"></div><div class="c-s-l">#FFF white</div></div>
+  <div class="c-s"><div class="c-s-d" style="background:#F5F5F5"></div><div class="c-s-l">#F5F5F5 surface</div></div>
+  <div class="c-s"><div class="c-s-d" style="background:#E8E8E8"></div><div class="c-s-l">#E8E8E8 border</div></div>
+  <div class="c-s"><div class="c-s-d" style="background:#5C8A6E"></div><div class="c-s-l">#5C8A6E sage</div></div>
+  <div class="c-s"><div class="c-s-d" style="background:#D4726A"></div><div class="c-s-l">#D4726A blush</div></div>
+  <div class="c-s"><div class="c-s-d" style="background:#6B89A8"></div><div class="c-s-l">#6B89A8 steel</div></div>
+  <div class="c-s"><div class="c-s-d" style="background:#C4985A"></div><div class="c-s-l">#C4985A gold</div></div>
+  <div class="c-s"><div class="c-s-d" style="background:#9B8BB4"></div><div class="c-s-l">#9B8BB4 lavender</div></div>
+</div>
+
+<!-- ===================== SECTION 1: AUTH ===================== -->
+<div class="section">
+  <div class="sec-t">1. Authentication & Onboarding</div>
+  <div class="sec-d">Login · Style Quiz · Color Analysis · First Garment</div>
+  <div class="row">
+
+    <!-- LOGIN -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc" style="display:flex;flex-direction:column;padding:0 28px">
+          <div style="flex:1;min-height:40px"></div>
+          <div style="text-align:center;margin-bottom:48px">
+            <div style="display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:16px;background:#1A1A1A;margin-bottom:20px">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:600;color:#1A1A1A">Dresser</div>
+            <div style="font-size:13px;color:#999;margin-top:8px">Your AI personal stylist</div>
+          </div>
+          <button class="pill-btn pill-btn-dark" style="margin-bottom:12px">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#8AB4F8"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#81C995"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FDD663"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#E8716D"/></svg>
+            Continue with Google
+          </button>
+          <button class="pill-btn pill-btn-light" style="margin-bottom:24px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#1A1A1A"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+            Continue with Apple
+          </button>
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px"><div style="flex:1;height:1px;background:#F0F0F0"></div><span style="font-size:12px;color:#BBB">or</span><div style="flex:1;height:1px;background:#F0F0F0"></div></div>
+          <input style="width:100%;padding:16px 20px;border-radius:14px;border:1.5px solid #E8E8E8;background:#FAFAFA;font-size:14px;color:#1A1A1A;font-family:inherit;margin-bottom:12px;outline:none" placeholder="Email address">
+          <div style="position:relative;margin-bottom:8px"><input type="password" style="width:100%;padding:16px 20px;border-radius:14px;border:1.5px solid #E8E8E8;background:#FAFAFA;font-size:14px;color:#1A1A1A;font-family:inherit;outline:none" placeholder="Password" value="••••••••"><div style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#BBB" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div>
+          <div style="text-align:right;margin-bottom:20px"><span style="font-size:12px;color:#999">Forgot password?</span></div>
+          <button class="pill-btn pill-btn-dark">Sign in</button>
+          <div style="flex:1;min-height:20px"></div>
+          <div style="text-align:center;padding-bottom:40px"><span style="font-size:13px;color:#999">Don't have an account? </span><span style="font-size:13px;color:#1A1A1A;font-weight:600;text-decoration:underline;text-underline-offset:3px">Create one</span></div>
+        </div>
+      </div>
+      <div class="p-label">Login</div>
+    </div>
+
+    <!-- STYLE QUIZ -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc" style="padding-top:16px">
+          <div style="display:flex;justify-content:center;gap:8px;margin-bottom:28px">
+            <div style="width:48px;height:3px;border-radius:2px;background:#1A1A1A"></div>
+            <div style="width:48px;height:3px;border-radius:2px;background:#E8E8E8"></div>
+            <div style="width:48px;height:3px;border-radius:2px;background:#E8E8E8"></div>
+          </div>
+          <div style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#1A1A1A;margin-bottom:6px">Discover your style</div>
+          <div style="text-align:center;font-size:13px;color:#999;margin-bottom:28px">Select aesthetics that speak to you</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div style="border-radius:20px;overflow:hidden;border:2.5px solid #1A1A1A;position:relative">
+              <div style="aspect-ratio:4/5;background:#F5F5F5;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:16px">
+                <div style="width:48px;height:48px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.04)"><span style="font-size:22px;opacity:0.5">&#9634;</span></div>
+                <span style="font-size:14px;font-weight:600;color:#1A1A1A">Minimalist</span>
+                <span style="font-size:11px;color:#999;margin-top:3px">Clean & simple</span>
+              </div>
+              <div style="position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:50%;background:#1A1A1A;display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            </div>
+            <div style="border-radius:20px;overflow:hidden;border:1px solid #E8E8E8"><div style="aspect-ratio:4/5;background:#F5F5F5;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:16px"><div style="width:48px;height:48px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.04)"><span style="font-size:22px;opacity:0.5">&#9733;</span></div><span style="font-size:14px;font-weight:600;color:#1A1A1A">Classic</span><span style="font-size:11px;color:#999;margin-top:3px">Timeless elegance</span></div></div>
+            <div style="border-radius:20px;overflow:hidden;border:1px solid #E8E8E8"><div style="aspect-ratio:4/5;background:#F5F5F5;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:16px"><div style="width:48px;height:48px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.04)"><span style="font-size:22px;opacity:0.5">&#9830;</span></div><span style="font-size:14px;font-weight:600;color:#1A1A1A">Streetwear</span><span style="font-size:11px;color:#999;margin-top:3px">Urban & bold</span></div></div>
+            <div style="border-radius:20px;overflow:hidden;border:2.5px solid #1A1A1A;position:relative"><div style="aspect-ratio:4/5;background:#F5F5F5;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:16px"><div style="width:48px;height:48px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.04)"><span style="font-size:22px;opacity:0.5">&#10022;</span></div><span style="font-size:14px;font-weight:600;color:#1A1A1A">Bohemian</span><span style="font-size:11px;color:#999;margin-top:3px">Free-spirited</span></div><div style="position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:50%;background:#1A1A1A;display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+          </div>
+          <button class="pill-btn pill-btn-dark" style="margin-top:28px">Continue</button>
+        </div>
+      </div>
+      <div class="p-label">Style Quiz</div>
+    </div>
+
+    <!-- SELFIE / COLOR -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc" style="padding-top:16px">
+          <div style="display:flex;justify-content:center;gap:8px;margin-bottom:28px">
+            <div style="width:48px;height:3px;border-radius:2px;background:#1A1A1A"></div>
+            <div style="width:48px;height:3px;border-radius:2px;background:#1A1A1A"></div>
+            <div style="width:48px;height:3px;border-radius:2px;background:#E8E8E8"></div>
+          </div>
+          <div style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#1A1A1A;margin-bottom:6px">Find your colors</div>
+          <div style="text-align:center;font-size:13px;color:#999;margin-bottom:32px">A selfie helps us recommend your best colors</div>
+          <div style="border:1.5px dashed #DDD;border-radius:28px;padding:52px 24px;text-align:center;margin-bottom:24px;background:#FAFAFA">
+            <div style="width:80px;height:80px;border-radius:50%;background:#F0F0F0;display:flex;align-items:center;justify-content:center;margin:0 auto 18px">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/></svg>
+            </div>
+            <div style="font-size:16px;font-weight:600;color:#1A1A1A">Take a selfie</div>
+            <div style="font-size:12px;color:#999;margin-top:6px;line-height:1.6">Natural lighting · Face forward · No filters</div>
+          </div>
+          <div style="display:flex;align-items:start;gap:10px;background:#F5F5F5;border-radius:14px;padding:14px 16px;margin-bottom:24px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <div style="font-size:11px;color:#777;line-height:1.5">Your photo is analyzed instantly and <strong>never stored</strong>. Only color profile data is saved.</div>
+          </div>
+          <button class="pill-btn pill-btn-dark">Upload photo</button>
+          <div style="text-align:center;margin-top:16px;font-size:13px;color:#999;font-weight:500">Skip for now</div>
+        </div>
+      </div>
+      <div class="p-label">Color Analysis</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== SECTION 2: HOME ===================== -->
+<div class="section">
+  <div class="sec-t">2. Home / Closet</div>
+  <div class="sec-d">Main Dashboard · Garment Grid · Wardrobe Insights</div>
+  <div class="row">
+
+    <!-- HOME MAIN -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">
+            <div><div style="font-size:13px;color:#999;font-weight:500">Good morning, Rahul</div><div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:#1A1A1A;margin-top:2px">My Closet</div></div>
+            <div style="display:flex;gap:8px"><div style="width:40px;height:40px;border-radius:50%;background:#F5F5F5;display:flex;align-items:center;justify-content:center;position:relative"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><div style="position:absolute;top:8px;right:10px;width:7px;height:7px;border-radius:50%;background:#D4726A;border:2px solid #fff"></div></div><div style="width:40px;height:40px;border-radius:50%;background:#1A1A1A;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+          </div>
+          <!-- Stats -->
+          <div style="display:flex;gap:8px;margin:16px 0 20px">
+            <div style="flex:1;background:#F5F5F5;border-radius:16px;padding:14px 12px;text-align:center"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#1A1A1A">47</div><div style="font-size:10px;color:#999;margin-top:2px;font-weight:500;letter-spacing:0.5px;text-transform:uppercase">Items</div></div>
+            <div style="flex:1;background:#F5F5F5;border-radius:16px;padding:14px 12px;text-align:center"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#5C8A6E">12</div><div style="font-size:10px;color:#999;margin-top:2px;font-weight:500;letter-spacing:0.5px;text-transform:uppercase">Outfits</div></div>
+            <div style="flex:1;background:#F5F5F5;border-radius:16px;padding:14px 12px;text-align:center"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:#C4985A">86%</div><div style="font-size:10px;color:#999;margin-top:2px;font-weight:500;letter-spacing:0.5px;text-transform:uppercase">Utilized</div></div>
+          </div>
+          <!-- AI Banner -->
+          <div style="background:#1A1A1A;border-radius:20px;padding:18px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px">
+            <div style="width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div style="flex:1"><div style="font-size:13px;font-weight:600;color:#fff">Style tip for today</div><div style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:3px">28°C sunny — try linen shirt with beige chinos.</div></div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <!-- Search -->
+          <div class="p-search" style="margin-bottom:14px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#BBB" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input placeholder="Search items, colors..."><div style="width:32px;height:32px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #eee"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/></svg></div></div>
+          <!-- Chips -->
+          <div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:18px"><div class="p-chip on">All</div><div class="p-chip">Tops <span style="color:#BBB;font-size:10px">18</span></div><div class="p-chip">Bottoms <span style="color:#BBB;font-size:10px">12</span></div><div class="p-chip">Outerwear</div><div class="p-chip">Shoes</div></div>
+          <!-- Grid -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div class="g-card"><div class="g-img">&#128085;<div class="g-fav"><svg width="14" height="14" viewBox="0 0 24 24" fill="#D4726A" stroke="#D4726A" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><div class="g-badge">Shirt</div><div class="g-score" style="background:rgba(92,138,110,0.12);color:#5C8A6E">5/5</div></div><div class="g-info"><div style="font-size:13px;font-weight:600;color:#1A1A1A">Oxford Button-Down</div><div style="font-size:11px;color:#999;margin-top:4px;display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#5B8DBE;border:1px solid #E8E8E8"></span>Light blue · Cotton</div></div></div>
+            <div class="g-card"><div class="g-img">&#128086;<div class="g-fav"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#CCC" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><div class="g-badge">Jeans</div><div class="g-score" style="background:rgba(92,138,110,0.12);color:#5C8A6E">4/5</div></div><div class="g-info"><div style="font-size:13px;font-weight:600;color:#1A1A1A">Slim Fit Denim</div><div style="font-size:11px;color:#999;margin-top:4px;display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#2C3E50;border:1px solid #E8E8E8"></span>Dark navy · Denim</div></div></div>
+            <div class="g-card"><div class="g-img">&#129507;<div class="g-fav"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#CCC" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><div class="g-badge">Jacket</div><div class="g-score" style="background:rgba(196,152,90,0.12);color:#C4985A">3/5</div></div><div class="g-info"><div style="font-size:13px;font-weight:600;color:#1A1A1A">Leather Bomber</div><div style="font-size:11px;color:#999;margin-top:4px;display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#8B4513;border:1px solid #E8E8E8"></span>Brown · Leather</div></div></div>
+            <div class="g-card"><div class="g-img">&#128084;<div class="g-fav"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#CCC" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><div class="g-badge">Formal</div><div class="g-score" style="background:rgba(92,138,110,0.12);color:#5C8A6E">5/5</div></div><div class="g-info"><div style="font-size:13px;font-weight:600;color:#1A1A1A">White Dress Shirt</div><div style="font-size:11px;color:#999;margin-top:4px;display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#F5F5DC;border:1px solid #E8E8E8"></span>Cream · Cotton</div></div></div>
+          </div>
+        </div>
+        <div class="bn"><div class="bn-i on"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Closet</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg><span>Outfits</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Stylist</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Discover</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>Profile</span></div></div>
+      </div>
+      <div class="p-label">Closet — Main</div>
+    </div>
+
+    <!-- ADD GARMENT -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+            <div style="width:36px;height:36px;border-radius:50%;background:#F5F5F5;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1A1A1A" stroke-width="2" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg></div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#1A1A1A">Add to closet</div>
+          </div>
+          <div style="border:1.5px dashed #DDD;border-radius:24px;padding:40px 20px;text-align:center;margin-bottom:20px;background:#FAFAFA">
+            <div style="width:56px;height:56px;border-radius:50%;background:#F0F0F0;display:flex;align-items:center;justify-content:center;margin:0 auto 14px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
+            <div style="font-size:15px;font-weight:600;color:#1A1A1A">Upload a photo</div>
+            <div style="font-size:12px;color:#999;margin-top:6px">Flat-lay or hanger works best</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px"><div style="width:8px;height:8px;border-radius:50%;background:#5C8A6E"></div><span style="font-size:12px;font-weight:600;color:#1A1A1A;letter-spacing:0.5px;text-transform:uppercase">AI Analysis Complete</span></div>
+          <div style="background:#fff;border:1px solid #F0F0F0;border-radius:20px;padding:16px;margin-bottom:16px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+              <div style="width:60px;height:75px;border-radius:14px;background:#F5F5F5;display:flex;align-items:center;justify-content:center;font-size:28px;color:#ccc;opacity:0.4;border:1px solid #F0F0F0">&#128085;</div>
+              <div style="flex:1"><div style="font-size:15px;font-weight:600;color:#1A1A1A">Oxford Button-Down</div><div style="font-size:12px;color:#999;margin-top:3px">Confidence: <span style="color:#5C8A6E;font-weight:600">94%</span></div></div>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#BBB" stroke-width="1.5"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </div>
+            <div style="display:flex;flex-wrap:wrap">
+              <span class="p-tag" style="background:#F5F5F5;color:#1A1A1A;font-weight:600">Topwear</span>
+              <span class="p-tag" style="background:#F5F5F5;color:#1A1A1A;font-weight:600">Shirt</span>
+              <span class="p-tag" style="background:#fff;border:1px solid #E8E8E8;color:#666"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#5B8DBE;margin-right:4px"></span>Light blue</span>
+              <span class="p-tag" style="background:#E7F4ED;color:#2D6B47">All season</span>
+              <span class="p-tag" style="background:#E5EFF8;color:#3A6B8C">Formality 3/5</span>
+              <span class="p-tag" style="background:#F0E5F5;color:#7B4D8E">Cotton</span>
+              <span class="p-tag" style="background:#FAF0E0;color:#9E7A3C">Solid</span>
+            </div>
+          </div>
+          <button class="pill-btn pill-btn-dark">Save to wardrobe</button>
+        </div>
+        <div class="bn"><div class="bn-i on"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Closet</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg><span>Outfits</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Stylist</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Discover</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>Profile</span></div></div>
+      </div>
+      <div class="p-label">Add Garment</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== SECTION 3: OUTFITS & STYLIST ===================== -->
+<div class="section">
+  <div class="sec-t">3. Outfits, Stylist & Calendar</div>
+  <div class="sec-d">Saved Looks · AI Chat · Wear Calendar</div>
+  <div class="row">
+
+    <!-- OUTFITS -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:#1A1A1A;margin-bottom:4px">Outfits</div>
+          <div style="font-size:13px;color:#999;margin-bottom:20px">Your curated looks</div>
+          <div class="o-card">
+            <div class="o-items"><div class="o-item">&#128085;</div><div class="o-item">&#128086;</div><div class="o-item">&#128094;</div><div class="o-item">&#9201;</div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:15px;font-weight:600;color:#1A1A1A">Breezy Elegance</div><div style="font-size:12px;color:#999;margin-top:3px">Beach wedding · Goa</div></div><div class="o-score" style="background:rgba(92,138,110,0.1);color:#5C8A6E">96%</div></div>
+          </div>
+          <div class="o-card">
+            <div class="o-items"><div class="o-item">&#128084;</div><div class="o-item">&#128086;</div><div class="o-item">&#128094;</div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:15px;font-weight:600;color:#1A1A1A">Power Meeting</div><div style="font-size:12px;color:#999;margin-top:3px">Board presentation</div></div><div class="o-score" style="background:rgba(92,138,110,0.1);color:#5C8A6E">92%</div></div>
+          </div>
+          <div class="o-card">
+            <div class="o-items"><div class="o-item">&#128085;</div><div class="o-item">&#128086;</div><div class="o-item">&#128095;</div></div>
+            <div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:15px;font-weight:600;color:#1A1A1A">Weekend Brunch</div><div style="font-size:12px;color:#999;margin-top:3px">Casual · Sunday</div></div><div class="o-score" style="background:rgba(196,152,90,0.1);color:#C4985A">88%</div></div>
+          </div>
+          <!-- Calendar -->
+          <div style="display:flex;justify-content:space-between;align-items:center;margin:24px 0 14px">
+            <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;color:#1A1A1A">March 2026</div>
+            <div style="display:flex;gap:4px"><div style="width:32px;height:32px;border-radius:50%;background:#F5F5F5;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg></div><div style="width:32px;height:32px;border-radius:50%;background:#F5F5F5;display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg></div></div>
+          </div>
+          <div style="background:#fff;border:1px solid #F0F0F0;border-radius:20px;padding:14px">
+            <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px">
+              <div style="font-size:10px;color:#BBB;text-align:center;padding:6px 0;font-weight:500">M</div><div style="font-size:10px;color:#BBB;text-align:center;padding:6px 0;font-weight:500">T</div><div style="font-size:10px;color:#BBB;text-align:center;padding:6px 0;font-weight:500">W</div><div style="font-size:10px;color:#BBB;text-align:center;padding:6px 0;font-weight:500">T</div><div style="font-size:10px;color:#BBB;text-align:center;padding:6px 0;font-weight:500">F</div><div style="font-size:10px;color:#BBB;text-align:center;padding:6px 0;font-weight:500">S</div><div style="font-size:10px;color:#BBB;text-align:center;padding:6px 0;font-weight:500">S</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;border-radius:12px">1</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#5C8A6E;font-weight:600;border-radius:12px;background:rgba(92,138,110,0.08)">2</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;border-radius:12px">3</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#5C8A6E;font-weight:600;border-radius:12px;background:rgba(92,138,110,0.08)">4</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;border-radius:12px">5</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#5C8A6E;font-weight:600;border-radius:12px;background:rgba(92,138,110,0.08)">6</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;border-radius:12px">7</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;border-radius:12px">8</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;border-radius:12px">9</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;border-radius:12px">10</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;border-radius:12px">11</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#5C8A6E;font-weight:600;border-radius:12px;background:rgba(92,138,110,0.08)">12</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;border-radius:12px">13</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#999;border-radius:12px">14</div>
+              <div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:600;border-radius:12px;background:#1A1A1A">25</div>
+            </div>
+          </div>
+        </div>
+        <div class="bn"><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Closet</span></div><div class="bn-i on"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg><span>Outfits</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Stylist</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Discover</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>Profile</span></div></div>
+      </div>
+      <div class="p-label">Outfits + Calendar</div>
+    </div>
+
+    <!-- AI STYLIST -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc" style="display:flex;flex-direction:column;padding-bottom:10px;height:calc(100% - 44px)">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid #F0F0F0">
+            <div style="width:42px;height:42px;border-radius:50%;background:#1A1A1A;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div style="flex:1"><div style="font-size:15px;font-weight:600;color:#1A1A1A">Dresser Stylist</div><div style="font-size:11px;color:#5C8A6E;display:flex;align-items:center;gap:4px"><div style="width:6px;height:6px;border-radius:50%;background:#5C8A6E"></div>Ready to style</div></div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column">
+            <div class="c-msg c-msg-a"><div class="c-al"><svg width="10" height="10" viewBox="0 0 24 24" fill="#C4985A"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Stylist</div>Tell me about your event and I'll style the perfect look from your wardrobe.</div>
+            <div class="c-msg c-msg-u">Beach wedding in Goa next Saturday. Evening, semi-formal.</div>
+            <div class="c-msg c-msg-a">
+              <div class="c-al"><svg width="10" height="10" viewBox="0 0 24 24" fill="#C4985A"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Stylist</div>
+              For a Goa beach wedding — breathable fabrics, semi-formal:
+              <div style="background:#F5F5F5;border:1px solid #F0F0F0;border-radius:16px;padding:14px;margin-top:10px">
+                <div style="display:flex;gap:8px;margin-bottom:10px"><div style="flex:1;aspect-ratio:3/4;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#ccc;opacity:0.4;border:1px solid #F0F0F0">&#128085;</div><div style="flex:1;aspect-ratio:3/4;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#ccc;opacity:0.4;border:1px solid #F0F0F0">&#128086;</div><div style="flex:1;aspect-ratio:3/4;background:#fff;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#ccc;opacity:0.4;border:1px solid #F0F0F0">&#128094;</div></div>
+                <div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:13px;font-weight:600;color:#1A1A1A">Breezy Elegance</div><div style="font-size:11px;color:#999;margin-top:3px">Linen shirt + chinos + loafers</div></div><div class="o-score" style="background:rgba(92,138,110,0.1);color:#5C8A6E;flex-shrink:0;margin-left:8px">96%</div></div>
+              </div>
+            </div>
+            <div class="c-msg c-msg-u">Love it! Any alternatives?</div>
+          </div>
+          <div style="display:flex;gap:6px;margin-bottom:10px;overflow-x:auto">
+            <div class="pill-btn-ghost" style="font-size:11px;padding:8px 14px">Work meeting</div>
+            <div class="pill-btn-ghost" style="font-size:11px;padding:8px 14px">Date night</div>
+            <div class="pill-btn-ghost" style="font-size:11px;padding:8px 14px">Wedding</div>
+            <div class="pill-btn-ghost" style="font-size:11px;padding:8px 14px">Casual</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid #F0F0F0">
+            <div style="flex:1;border:1px solid #E8E8E8;border-radius:50px;padding:12px 18px;font-size:13px;background:#fff;color:#BBB">Describe your event...</div>
+            <div style="width:42px;height:42px;border-radius:50%;background:#1A1A1A;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="none"/></svg></div>
+          </div>
+        </div>
+      </div>
+      <div class="p-label">AI Stylist Chat</div>
+    </div>
+
+    <!-- DISCOVER -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:#1A1A1A;margin-bottom:4px">Discover</div>
+          <div style="font-size:13px;color:#999;margin-bottom:18px">Curated for your wardrobe</div>
+          <!-- Gap alert -->
+          <div style="background:#F5F5F5;border-radius:20px;padding:18px;margin-bottom:18px;display:flex;align-items:start;gap:12px">
+            <div style="width:40px;height:40px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid #eee"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B89A8" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+            <div><div style="font-size:13px;font-weight:600;color:#1A1A1A;margin-bottom:2px">Wardrobe gap found</div><div style="font-size:12px;color:#777;line-height:1.5">Missing a neutral layering piece for cooler weather.</div></div>
+          </div>
+          <div class="d-card">
+            <div class="d-img">&#129507;<div style="position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></div><div style="position:absolute;bottom:12px;left:12px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);padding:5px 12px;border-radius:50px;font-size:11px;font-weight:600;color:#5C8A6E">98% match</div></div>
+            <div style="padding:14px 16px"><div style="font-size:15px;font-weight:600;color:#1A1A1A">Wool Blend Blazer</div><div style="font-size:12px;color:#999;margin-top:3px">Mango Man</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><div style="font-size:18px;font-weight:700;color:#1A1A1A">&#8377;4,990</div><button class="pill-btn-ghost">View item</button></div></div>
+          </div>
+          <div class="d-card">
+            <div class="d-img">&#129507;<div style="position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.9);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="1.5"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></div><div style="position:absolute;bottom:12px;left:12px;background:rgba(255,255,255,0.92);backdrop-filter:blur(8px);padding:5px 12px;border-radius:50px;font-size:11px;font-weight:600;color:#5C8A6E">91% match</div></div>
+            <div style="padding:14px 16px"><div style="font-size:15px;font-weight:600;color:#1A1A1A">Cotton Bomber</div><div style="font-size:12px;color:#999;margin-top:3px">H&M</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><div style="font-size:18px;font-weight:700;color:#1A1A1A">&#8377;2,999</div><button class="pill-btn-ghost">View item</button></div></div>
+          </div>
+        </div>
+        <div class="bn"><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Closet</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg><span>Outfits</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Stylist</span></div><div class="bn-i on"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Discover</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>Profile</span></div></div>
+      </div>
+      <div class="p-label">Discover</div>
+    </div>
+
+    <!-- PROFILE -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc">
+          <div style="display:flex;flex-direction:column;align-items:center;padding:10px 0 24px">
+            <div style="width:88px;height:88px;border-radius:50%;background:#1A1A1A;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:600;color:#fff;margin-bottom:12px">R</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:#1A1A1A">Rahul Sharma</div>
+            <div style="margin-top:6px;background:#F5F5F5;color:#C4985A;padding:5px 16px;border-radius:50px;font-size:11px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase">Warm Autumn</div>
+          </div>
+          <div style="font-size:11px;font-weight:600;color:#999;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase">Power colors</div>
+          <div style="display:flex;gap:6px;margin-bottom:16px"><div style="flex:1;height:48px;border-radius:12px;background:#8B4513;position:relative;box-shadow:0 1px 4px rgba(0,0,0,0.1)"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-shadow:0 1px 3px rgba(0,0,0,0.3);text-transform:uppercase;letter-spacing:0.3px">Saddle</span></div><div style="flex:1;height:48px;border-radius:12px;background:#B8651A;position:relative;box-shadow:0 1px 4px rgba(0,0,0,0.1)"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-shadow:0 1px 3px rgba(0,0,0,0.3);text-transform:uppercase">Rust</span></div><div style="flex:1;height:48px;border-radius:12px;background:#CD853F;position:relative;box-shadow:0 1px 4px rgba(0,0,0,0.1)"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-shadow:0 1px 3px rgba(0,0,0,0.3);text-transform:uppercase">Peru</span></div><div style="flex:1;height:48px;border-radius:12px;background:#DAA520;position:relative;box-shadow:0 1px 4px rgba(0,0,0,0.1)"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-shadow:0 1px 3px rgba(0,0,0,0.3);text-transform:uppercase">Gold</span></div><div style="flex:1;height:48px;border-radius:12px;background:#6B8E23;position:relative;box-shadow:0 1px 4px rgba(0,0,0,0.1)"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-shadow:0 1px 3px rgba(0,0,0,0.3);text-transform:uppercase">Olive</span></div><div style="flex:1;height:48px;border-radius:12px;background:#2E8B57;position:relative;box-shadow:0 1px 4px rgba(0,0,0,0.1)"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-shadow:0 1px 3px rgba(0,0,0,0.3);text-transform:uppercase">Forest</span></div></div>
+          <div style="font-size:11px;font-weight:600;color:#999;margin-bottom:8px;letter-spacing:1px;text-transform:uppercase">Colors to avoid</div>
+          <div style="display:flex;gap:6px;margin-bottom:24px"><div style="flex:1;height:48px;border-radius:12px;background:#FFB6C1;opacity:0.55;position:relative"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-shadow:0 1px 3px rgba(0,0,0,0.3);text-transform:uppercase">Pink</span></div><div style="flex:1;height:48px;border-radius:12px;background:#ADD8E6;opacity:0.55;position:relative"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-shadow:0 1px 3px rgba(0,0,0,0.3);text-transform:uppercase">Ice blue</span></div><div style="flex:1;height:48px;border-radius:12px;background:#E6E6FA;opacity:0.55;position:relative"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(0,0,0,0.4);text-transform:uppercase">Lavender</span></div><div style="flex:1;height:48px;border-radius:12px;background:#FF00FF;opacity:0.55;position:relative"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-shadow:0 1px 3px rgba(0,0,0,0.3);text-transform:uppercase">Fuchsia</span></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid #F0F0F0"><div><div style="font-size:14px;font-weight:500;color:#1A1A1A">Color-aware styling</div><div style="font-size:11px;color:#999;margin-top:2px">Prioritize best colors</div></div><div style="width:48px;height:28px;border-radius:14px;background:#1A1A1A;position:relative"><div style="width:24px;height:24px;border-radius:50%;background:#fff;position:absolute;top:2px;left:22px;box-shadow:0 1px 4px rgba(0,0,0,0.15)"></div></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid #F0F0F0"><div><div style="font-size:14px;font-weight:500;color:#1A1A1A">Weather-aware</div><div style="font-size:11px;color:#999;margin-top:2px">Factor in local weather</div></div><div style="width:48px;height:28px;border-radius:14px;background:#1A1A1A;position:relative"><div style="width:24px;height:24px;border-radius:50%;background:#fff;position:absolute;top:2px;left:22px;box-shadow:0 1px 4px rgba(0,0,0,0.15)"></div></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid #F0F0F0"><div><div style="font-size:14px;font-weight:500;color:#1A1A1A">Repeat detection</div><div style="font-size:11px;color:#999;margin-top:2px">Avoid outfit repeats</div></div><div style="width:48px;height:28px;border-radius:14px;background:#E8E8E8;position:relative"><div style="width:24px;height:24px;border-radius:50%;background:#fff;position:absolute;top:2px;left:2px;box-shadow:0 1px 4px rgba(0,0,0,0.15)"></div></div></div>
+          <button class="pill-btn pill-btn-light" style="margin-top:24px">Update my photos</button>
+          <div style="text-align:center;margin-top:16px;font-size:13px;color:#D4726A;font-weight:500">Sign out</div>
+        </div>
+        <div class="bn"><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Closet</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg><span>Outfits</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Stylist</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Discover</span></div><div class="bn-i on"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>Profile</span></div></div>
+      </div>
+      <div class="p-label">Profile & Colors</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== DEVELOPMENT GUIDE ===================== -->
+<div class="dev-section">
+  <div class="sec-t">Development Guide</div>
+  <div class="sec-d">Flutter Implementation · Architecture · Packages · Code Patterns</div>
+
+  <div class="dev-grid">
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#1A1A1A"></div>Typography Setup</h3>
+      <p>Use <code>google_fonts</code> package. Display font: <strong>Cormorant Garamond</strong> (serif) for all screen titles, stat numbers, brand name. Body font: <strong>Plus Jakarta Sans</strong> for everything else. Never use system fonts.</p>
+      <pre>// In theme.dart
+textTheme: TextTheme(
+  displayLarge: GoogleFonts.cormorantGaramond(
+    fontSize: 30, fontWeight: FontWeight.w600,
+    color: Color(0xFF1A1A1A),
+  ),
+  bodyMedium: GoogleFonts.plusJakartaSans(
+    fontSize: 14, fontWeight: FontWeight.w400,
+    color: Color(0xFF666666),
+  ),
+)</pre>
+    </div>
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#1A1A1A"></div>Color Constants</h3>
+      <p>Define all colors in a single class. Black is primary — accent colors only appear where they carry semantic meaning.</p>
+      <pre>class DresserColors {
+  static const primary = Color(0xFF1A1A1A);
+  static const background = Color(0xFFFFFFFF);
+  static const surface = Color(0xFFF5F5F5);
+  static const border = Color(0xFFE8E8E8);
+  static const textSecondary = Color(0xFF666666);
+  static const textTertiary = Color(0xFF999999);
+
+  // Semantic accents
+  static const sage = Color(0xFF5C8A6E);
+  static const blush = Color(0xFFD4726A);
+  static const steel = Color(0xFF6B89A8);
+  static const gold = Color(0xFFC4985A);
+  static const lavender = Color(0xFF9B8BB4);
+}</pre>
+    </div>
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#5C8A6E"></div>Pill-Shaped Buttons</h3>
+      <p>All buttons use <code>StadiumBorder()</code> for pill shape. Three variants: dark filled (primary CTA), light outlined (secondary), ghost (inline actions with subtle shadow).</p>
+      <pre>ElevatedButton(
+  style: ElevatedButton.styleFrom(
+    backgroundColor: DresserColors.primary,
+    foregroundColor: Colors.white,
+    shape: StadiumBorder(),
+    padding: EdgeInsets.symmetric(
+      vertical: 16, horizontal: 28),
+    elevation: 0,
+  ),
+  child: Text('Save to wardrobe',
+    style: GoogleFonts.plusJakartaSans(
+      fontWeight: FontWeight.w600)),
+  onPressed: () {},
+)</pre>
+    </div>
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#D4726A"></div>Frosted Glass Bottom Nav</h3>
+      <p>Custom bottom nav using <code>ClipRRect</code> + <code>BackdropFilter</code>. Active tab gets <code>#F5F5F5</code> background pill. Don't use Flutter's built-in <code>BottomNavigationBar</code>.</p>
+      <pre>ClipRRect(
+  child: BackdropFilter(
+    filter: ImageFilter.blur(
+      sigmaX: 24, sigmaY: 24),
+    child: Container(
+      color: Colors.white.withOpacity(0.88),
+      padding: EdgeInsets.fromLTRB(
+        6, 6, 6, 32), // 32 for safe area
+      child: Row(
+        mainAxisAlignment:
+          MainAxisAlignment.spaceAround,
+        children: navItems,
+      ),
+    ),
+  ),
+)</pre>
+    </div>
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#C4985A"></div>Garment Card Component</h3>
+      <p>2-column grid with <code>GridView.count(crossAxisCount: 2)</code>. Each card: 3:4 image ratio, frosted heart overlay, pill category badge, color match score. Use <code>CachedNetworkImage</code> with shimmer.</p>
+      <pre>Container(
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.circular(18),
+    color: Colors.white,
+    border: Border.all(
+      color: Color(0xFFF0F0F0)),
+  ),
+  child: Column(children: [
+    // Image with overlays
+    AspectRatio(
+      aspectRatio: 3/4,
+      child: Stack(children: [
+        CachedNetworkImage(...),
+        // Frosted heart button
+        Positioned(top: 10, right: 10,
+          child: _buildFrostedCircle(
+            child: Icon(Icons.favorite))),
+        // Category pill
+        Positioned(bottom: 10, left: 10,
+          child: _buildFrostedPill('Shirt')),
+        // Match score
+        Positioned(bottom: 10, right: 10,
+          child: _buildScoreBadge('5/5')),
+      ]),
+    ),
+    // Info section
+    Padding(padding: EdgeInsets.all(14),
+      child: Column(...)),
+  ]),
+)</pre>
+    </div>
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#6B89A8"></div>Frosted Glass Overlays</h3>
+      <p>Used for hearts, category badges, match scores, bookmark buttons on images. White background at 90% opacity with 8px blur.</p>
+      <pre>Widget _buildFrostedCircle({
+  required Widget child}) {
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(50),
+    child: BackdropFilter(
+      filter: ImageFilter.blur(
+        sigmaX: 8, sigmaY: 8),
+      child: Container(
+        width: 32, height: 32,
+        color: Colors.white.withOpacity(0.9),
+        alignment: Alignment.center,
+        child: child,
+      ),
+    ),
+  );
+}</pre>
+    </div>
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#9B8BB4"></div>Tag System</h3>
+      <p>AI-generated tags use pill shape with color-coded backgrounds. Each tag type has a specific subtle bg color + darker text. Tags are editable — wrap each in <code>GestureDetector</code>.</p>
+      <pre>// Tag color mapping
+Map&lt;String, TagStyle&gt; tagStyles = {
+  'category': TagStyle(
+    bg: Color(0xFFF5F5F5),
+    text: Color(0xFF1A1A1A)),
+  'season': TagStyle(
+    bg: Color(0xFFE7F4ED),
+    text: Color(0xFF2D6B47)),
+  'formality': TagStyle(
+    bg: Color(0xFFE5EFF8),
+    text: Color(0xFF3A6B8C)),
+  'fabric': TagStyle(
+    bg: Color(0xFFF0E5F5),
+    text: Color(0xFF7B4D8E)),
+  'pattern': TagStyle(
+    bg: Color(0xFFFAF0E0),
+    text: Color(0xFF9E7A3C)),
+};</pre>
+    </div>
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#1A1A1A"></div>Key Flutter Packages</h3>
+      <p>Essential packages for the premium UI. Install all of these in your <code>pubspec.yaml</code>.</p>
+      <pre>dependencies:
+  google_fonts: ^6.0.0
+  cached_network_image: ^3.0.0
+  shimmer: ^3.0.0
+  flutter_staggered_grid_view: ^0.7.0
+  flutter_animate: ^4.0.0
+  smooth_page_indicator: ^1.1.0
+  supabase_flutter: ^2.0.0
+  google_sign_in: ^6.0.0
+  dio: ^5.0.0
+  flutter_riverpod: ^2.0.0
+  image_picker: ^1.0.0
+  lucide_icons: ^0.257.0</pre>
+    </div>
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#5C8A6E"></div>Animation Strategy</h3>
+      <p>Use <code>flutter_animate</code> for staggered reveals. Grid items fade + slide up with 50ms delay between each. Chat messages slide from left (AI) or right (user). Keep all durations 200-400ms with <code>Curves.easeOutCubic</code>.</p>
+      <pre>// Staggered grid reveal
+GridView.count(
+  crossAxisCount: 2,
+  children: garments.indexed.map(
+    (i, garment) => GarmentCard(garment)
+      .animate()
+      .fadeIn(duration: 300.ms,
+        delay: (i * 50).ms)
+      .slideY(begin: 0.1, end: 0,
+        curve: Curves.easeOutCubic),
+  ).toList(),
+)</pre>
+    </div>
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#D4726A"></div>AI Tip Banner</h3>
+      <p>The dark banner at top of home screen. Uses <code>#1A1A1A</code> background with white text. Leading icon in a translucent circle. Tappable — navigates to stylist chat with context.</p>
+      <pre>Container(
+  padding: EdgeInsets.all(18),
+  decoration: BoxDecoration(
+    color: Color(0xFF1A1A1A),
+    borderRadius: BorderRadius.circular(20),
+  ),
+  child: Row(children: [
+    CircleAvatar(
+      radius: 22,
+      backgroundColor:
+        Colors.white.withOpacity(0.1),
+      child: Icon(LucideIcons.sparkles,
+        color: Colors.white, size: 20),
+    ),
+    SizedBox(width: 14),
+    Expanded(child: Column(
+      crossAxisAlignment:
+        CrossAxisAlignment.start,
+      children: [
+        Text('Style tip for today',
+          style: TextStyle(color: Colors.white,
+            fontWeight: FontWeight.w600)),
+        Text('28°C sunny — try linen...',
+          style: TextStyle(
+            color: Colors.white54)),
+      ],
+    )),
+  ]),
+)</pre>
+    </div>
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#C4985A"></div>Color Match Scoring UI</h3>
+      <p>Score badges use semantic colors: <strong>5/5 & 4/5</strong> = sage green bg, <strong>3/5</strong> = gold bg, <strong>2/5 & 1/5</strong> = blush bg. All at 12% opacity for subtlety.</p>
+      <pre>Widget _buildScoreBadge(int score) {
+  final color = score >= 4
+    ? DresserColors.sage
+    : score == 3
+      ? DresserColors.gold
+      : DresserColors.blush;
+
+  return Container(
+    padding: EdgeInsets.symmetric(
+      horizontal: 8, vertical: 4),
+    decoration: BoxDecoration(
+      color: color.withOpacity(0.12),
+      borderRadius: BorderRadius.circular(50),
+    ),
+    child: Text('$score/5',
+      style: TextStyle(
+        color: color,
+        fontSize: 9,
+        fontWeight: FontWeight.w600)),
+  );
+}</pre>
+    </div>
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#6B89A8"></div>Project Structure</h3>
+      <p>Feature-first organization. Each feature (closet, outfits, stylist, discover, profile) gets its own folder with screen, widgets, and provider.</p>
+      <pre>lib/
+├── main.dart
+├── config/
+│   ├── theme.dart        # Colors, typography
+│   ├── routes.dart       # GoRouter config
+│   └── constants.dart    # API URLs
+├── features/
+│   ├── auth/
+│   │   ├── login_screen.dart
+│   │   ├── onboarding_screen.dart
+│   │   └── auth_provider.dart
+│   ├── closet/
+│   │   ├── closet_screen.dart
+│   │   ├── add_garment_screen.dart
+│   │   ├── garment_detail.dart
+│   │   └── widgets/
+│   ├── outfits/
+│   ├── stylist/
+│   ├── discover/
+│   └── profile/
+├── shared/
+│   ├── widgets/          # Reusable
+│   ├── models/
+│   └── services/</pre>
+    </div>
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#9B8BB4"></div>Dark Theme Mapping</h3>
+      <p>For dark mode, invert the B&W foundation. Accent colors stay identical — they're already designed to work on both.</p>
+      <pre>// Dark theme overrides
+static const darkBg = Color(0xFF121212);
+static const darkSurface = Color(0xFF1E1E1E);
+static const darkCard = Color(0xFF252525);
+static const darkBorder = Color(0xFF333333);
+static const darkText = Color(0xFFF0F0F0);
+static const darkText2 = Color(0xFFA0A0A0);
+static const darkText3 = Color(0xFF666666);
+
+// Accent colors UNCHANGED:
+// sage, blush, steel, gold, lavender
+// all stay the same hex values</pre>
+    </div>
+
+    <div class="dev-card">
+      <h3><div class="dot" style="background:#1A1A1A"></div>Design Rules Summary</h3>
+      <p><strong>Radius:</strong> Buttons = 50px (pill). Cards = 18-20px. Inputs = 14px. Tags = 50px (pill). Icons in circles = 50%.<br><br>
+      <strong>Borders:</strong> 1px solid #F0F0F0 for cards. 1.5px solid #E8E8E8 for inputs. 1.5px dashed #DDD for upload areas.<br><br>
+      <strong>Shadows:</strong> Cards only: <code>0 1px 4px rgba(0,0,0,0.03)</code>. Never on buttons, tags, or nav. Phone-level only: frosted glass blur.<br><br>
+      <strong>Spacing:</strong> Screen padding: 20px horizontal. Section gaps: 20-24px. Card padding: 14-16px. Stat pills: 14px internal.<br><br>
+      <strong>Icons:</strong> Lucide Icons, stroke 1.5px, 18-22px size. Black for active, #BBB-#999 for inactive.</p>
+    </div>
+
+  </div>
+</div>
+
+<div style="text-align:center;padding:48px 0;color:#999">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#1A1A1A;margin-bottom:4px">Dresser</div>
+  <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase">Complete Reference v3.0 — 9 screens + 14 dev cards</div>
+  <div style="font-size:11px;color:#BBB;margin-top:8px">Feed this file to Claude CLI alongside dresser-app-guide.md</div>
+</div>
+
+</body>
+</html>

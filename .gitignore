@@ -1,0 +1,44 @@
+# ─── Secrets & credentials ───────────────────────────────────────────────────
+backend/.env
+app/.env
+backend/firebase-credentials.json
+app/android/app/google-services.json
+app/ios/Runner/GoogleService-Info.plist
+.kaggle/
+
+# ─── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+venv/
+.venv/
+*.egg-info/
+dist/
+.pytest_cache/
+
+# ─── Flutter / Dart ──────────────────────────────────────────────────────────
+app/.dart_tool/
+app/build/
+app/.flutter-plugins
+app/.flutter-plugins-dependencies
+app/android/.gradle/
+app/android/local.properties
+app/ios/Flutter/ephemeral/
+app/windows/flutter/ephemeral/
+
+# ─── IDE / Editor ────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.iml
+
+# ─── macOS ───────────────────────────────────────────────────────────────────
+.DS_Store
+**/.DS_Store
+
+# ─── Claude Code ─────────────────────────────────────────────────────────────
+.claude/
+
+# ─── Misc large / generated data ─────────────────────────────────────────────
+misc/seed_images/
+misc/data/fashion-dataset/

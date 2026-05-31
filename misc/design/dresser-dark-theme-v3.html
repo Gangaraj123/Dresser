@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dresser — Dark Theme All Screens</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:#0A0A0A;color:#F0F0F0;padding:40px 16px}
+
+/* Dark theme tokens */
+:root{
+  --bg:#121212;--bg2:#1E1E1E;--bg3:#2A2A2A;
+  --card:#1E1E1E;--card-elevated:#252525;
+  --text:#F0F0F0;--text2:#A0A0A0;--text3:#666;
+  --border:rgba(255,255,255,0.08);--border-solid:#333;
+  --sage:#6DAF8A;--blush:#E0877F;--steel:#85A3C0;--gold:#D4AD6A;--lavender:#B4A3CC;
+}
+
+.page-title{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:600;text-align:center;color:#F0F0F0}
+.page-sub{text-align:center;font-size:12px;color:#666;letter-spacing:2px;text-transform:uppercase;margin-bottom:8px}
+.page-note{text-align:center;font-size:13px;color:#777;max-width:700px;margin:0 auto 20px;line-height:1.6}
+
+.section{max-width:1600px;margin:0 auto 56px}
+.sec-t{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#F0F0F0;margin-bottom:4px}
+.sec-d{font-size:11px;color:#666;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+.row{display:flex;gap:28px;overflow-x:auto;padding:0 0 20px;-webkit-overflow-scrolling:touch}
+.row::-webkit-scrollbar{height:5px}.row::-webkit-scrollbar-thumb{background:#333;border-radius:3px}
+
+.phone{flex-shrink:0;width:390px;height:844px;background:var(--bg);border-radius:48px;border:7px solid #2A2A2A;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:0 12px 48px rgba(0,0,0,0.4),0 2px 8px rgba(0,0,0,0.2)}
+.p-label{text-align:center;font-size:11px;font-weight:600;color:#666;margin-top:10px;letter-spacing:1.5px;text-transform:uppercase}
+.p-note{text-align:center;font-size:11px;color:#555;margin-top:3px;max-width:390px}
+
+.sb{display:flex;justify-content:space-between;align-items:center;padding:16px 28px 8px;font-size:12px;font-weight:600;color:var(--text)}
+.sb-r{display:flex;gap:5px}.sb-d{width:3.5px;height:3.5px;border-radius:50%;background:var(--text)}
+.sc{flex:1;overflow-y:auto;padding:0 20px 110px}.sc::-webkit-scrollbar{display:none}
+
+.bn{position:absolute;bottom:0;left:0;right:0;background:rgba(18,18,18,0.88);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid var(--border);display:flex;justify-content:space-around;padding:6px 6px 32px}
+.bn-i{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:9px;font-weight:500;color:var(--text3);letter-spacing:0.3px;padding:6px 14px;border-radius:14px}
+.bn-i.on{color:var(--text);background:var(--bg3)}
+.bn-ic{width:22px;height:22px}
+
+/* Reusable dark button classes */
+.d-btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 28px;border-radius:50px;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;border:none;width:100%}
+.d-btn-w{background:#F0F0F0;color:#121212}
+.d-btn-o{background:transparent;color:var(--text);border:1.5px solid var(--border-solid)}
+.d-btn-ghost{background:var(--card-elevated);color:var(--text);border:1px solid var(--border-solid);padding:10px 18px;font-size:12px;font-weight:500;width:auto;border-radius:50px}
+
+.d-chip{flex-shrink:0;padding:8px 18px;border-radius:50px;font-size:12px;font-weight:500;background:var(--card);color:var(--text2);border:1px solid var(--border-solid);white-space:nowrap}
+.d-chip.on{background:#F0F0F0;color:#121212;border-color:#F0F0F0;font-weight:600}
+
+.d-search{display:flex;align-items:center;gap:10px;background:var(--bg2);border-radius:50px;padding:12px 18px;border:1px solid var(--border)}
+.d-search input{border:none;background:none;font-size:14px;color:var(--text);outline:none;width:100%;font-family:inherit}
+.d-search input::placeholder{color:var(--text3)}
+
+.d-tag{display:inline-flex;align-items:center;gap:5px;padding:5px 14px;border-radius:50px;font-size:11px;font-weight:500;margin:0 5px 7px 0}
+
+/* Color ref */
+.c-bar{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:40px}
+.c-s{display:flex;align-items:center;gap:5px;background:var(--bg2);padding:6px 12px;border-radius:8px;border:1px solid var(--border)}
+.c-s-d{width:16px;height:16px;border-radius:3px}
+.c-s-l{font-size:10px;color:#777;font-family:'JetBrains Mono',monospace}
+
+/* Dev notes */
+.dev-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+.dev-card{background:var(--bg2);border-radius:14px;padding:16px;border:1px solid var(--border)}
+.dev-card h4{font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.dev-card p{font-size:12px;color:#888;line-height:1.6}
+.dev-card code{font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--bg3);padding:2px 6px;border-radius:4px;color:var(--text)}
+</style>
+</head>
+<body>
+
+<h1 class="page-title">Dresser</h1>
+<p class="page-sub">Dark Theme — All Screens</p>
+<p class="page-note">Neutral dark, not warm or cold. #121212 base with #F0F0F0 text. Accent colors are slightly brighter than light theme for readability on dark backgrounds.</p>
+
+<!-- Color mapping reference -->
+<div style="max-width:1000px;margin:0 auto 32px">
+  <div style="font-size:11px;font-weight:600;color:#666;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;text-align:center">Dark Theme Color Mapping</div>
+  <div class="c-bar">
+    <div class="c-s"><div class="c-s-d" style="background:#121212"></div><div class="c-s-l">#121212 bg</div></div>
+    <div class="c-s"><div class="c-s-d" style="background:#1E1E1E"></div><div class="c-s-l">#1E1E1E card</div></div>
+    <div class="c-s"><div class="c-s-d" style="background:#252525"></div><div class="c-s-l">#252525 elevated</div></div>
+    <div class="c-s"><div class="c-s-d" style="background:#2A2A2A"></div><div class="c-s-l">#2A2A2A surface</div></div>
+    <div class="c-s"><div class="c-s-d" style="background:#333"></div><div class="c-s-l">#333 border</div></div>
+    <div class="c-s"><div class="c-s-d" style="background:#F0F0F0"></div><div class="c-s-l">#F0F0F0 text</div></div>
+    <div class="c-s"><div class="c-s-d" style="background:#A0A0A0"></div><div class="c-s-l">#A0A0A0 text2</div></div>
+    <div class="c-s"><div class="c-s-d" style="background:#666"></div><div class="c-s-l">#666 text3</div></div>
+  </div>
+  <div class="c-bar">
+    <div class="c-s"><div class="c-s-d" style="background:#6DAF8A"></div><div class="c-s-l">#6DAF8A sage</div></div>
+    <div class="c-s"><div class="c-s-d" style="background:#E0877F"></div><div class="c-s-l">#E0877F blush</div></div>
+    <div class="c-s"><div class="c-s-d" style="background:#85A3C0"></div><div class="c-s-l">#85A3C0 steel</div></div>
+    <div class="c-s"><div class="c-s-d" style="background:#D4AD6A"></div><div class="c-s-l">#D4AD6A gold</div></div>
+    <div class="c-s"><div class="c-s-d" style="background:#B4A3CC"></div><div class="c-s-l">#B4A3CC lavender</div></div>
+  </div>
+</div>
+
+<!-- ===================== SECTION 1: AUTH ===================== -->
+<div class="section">
+  <div class="sec-t">1. Authentication & Onboarding</div>
+  <div class="sec-d">Login · Style Quiz · Color Analysis</div>
+  <div class="row">
+
+    <!-- LOGIN -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc" style="display:flex;flex-direction:column;padding:0 28px">
+          <div style="flex:1;min-height:40px"></div>
+          <div style="text-align:center;margin-bottom:48px">
+            <div style="display:inline-flex;align-items:center;justify-content:center;width:64px;height:64px;border-radius:16px;background:#F0F0F0;margin-bottom:20px">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            </div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:38px;font-weight:600;color:var(--text)">Dresser</div>
+            <div style="font-size:13px;color:var(--text3);margin-top:8px">Your AI personal stylist</div>
+          </div>
+          <button class="d-btn d-btn-w" style="margin-bottom:12px">
+            <svg width="18" height="18" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Continue with Google
+          </button>
+          <button class="d-btn d-btn-o" style="margin-bottom:24px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="#F0F0F0"><path d="M17.05 20.28c-.98.95-2.05.88-3.08.4-1.09-.5-2.08-.48-3.24 0-1.44.62-2.2.44-3.06-.4C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>
+            Continue with Apple
+          </button>
+          <div style="display:flex;align-items:center;gap:16px;margin-bottom:24px"><div style="flex:1;height:1px;background:var(--border-solid)"></div><span style="font-size:12px;color:var(--text3)">or</span><div style="flex:1;height:1px;background:var(--border-solid)"></div></div>
+          <input style="width:100%;padding:16px 20px;border-radius:14px;border:1.5px solid var(--border-solid);background:var(--bg2);font-size:14px;color:var(--text);font-family:inherit;margin-bottom:12px;outline:none" placeholder="Email address">
+          <div style="position:relative;margin-bottom:8px"><input type="password" style="width:100%;padding:16px 20px;border-radius:14px;border:1.5px solid var(--border-solid);background:var(--bg2);font-size:14px;color:var(--text);font-family:inherit;outline:none" placeholder="Password" value="••••••••"><div style="position:absolute;right:16px;top:50%;transform:translateY(-50%)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div></div>
+          <div style="text-align:right;margin-bottom:20px"><span style="font-size:12px;color:var(--text3)">Forgot password?</span></div>
+          <button class="d-btn d-btn-w">Sign in</button>
+          <div style="flex:1;min-height:20px"></div>
+          <div style="text-align:center;padding-bottom:40px"><span style="font-size:13px;color:var(--text3)">Don't have an account? </span><span style="font-size:13px;color:var(--text);font-weight:600;text-decoration:underline;text-underline-offset:3px">Create one</span></div>
+        </div>
+      </div>
+      <div class="p-label">Login</div>
+      <div class="p-note">White icon on dark · White primary btn · Outlined secondary</div>
+    </div>
+
+    <!-- STYLE QUIZ -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc" style="padding-top:16px">
+          <div style="display:flex;justify-content:center;gap:8px;margin-bottom:28px"><div style="width:48px;height:3px;border-radius:2px;background:#F0F0F0"></div><div style="width:48px;height:3px;border-radius:2px;background:var(--bg3)"></div><div style="width:48px;height:3px;border-radius:2px;background:var(--bg3)"></div></div>
+          <div style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--text);margin-bottom:6px">Discover your style</div>
+          <div style="text-align:center;font-size:13px;color:var(--text3);margin-bottom:28px">Select aesthetics that speak to you</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div style="border-radius:20px;overflow:hidden;border:2.5px solid #F0F0F0;position:relative">
+              <div style="aspect-ratio:4/5;background:var(--bg2);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:16px">
+                <div style="width:48px;height:48px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;margin-bottom:12px"><span style="font-size:22px;opacity:0.5">&#9634;</span></div>
+                <span style="font-size:14px;font-weight:600;color:var(--text)">Minimalist</span>
+                <span style="font-size:11px;color:var(--text3);margin-top:3px">Clean & simple</span>
+              </div>
+              <div style="position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:50%;background:#F0F0F0;display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div>
+            </div>
+            <div style="border-radius:20px;overflow:hidden;border:1px solid var(--border-solid)"><div style="aspect-ratio:4/5;background:var(--bg2);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:16px"><div style="width:48px;height:48px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;margin-bottom:12px"><span style="font-size:22px;opacity:0.5">&#9733;</span></div><span style="font-size:14px;font-weight:600;color:var(--text)">Classic</span><span style="font-size:11px;color:var(--text3);margin-top:3px">Timeless elegance</span></div></div>
+            <div style="border-radius:20px;overflow:hidden;border:1px solid var(--border-solid)"><div style="aspect-ratio:4/5;background:var(--bg2);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:16px"><div style="width:48px;height:48px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;margin-bottom:12px"><span style="font-size:22px;opacity:0.5">&#9830;</span></div><span style="font-size:14px;font-weight:600;color:var(--text)">Streetwear</span><span style="font-size:11px;color:var(--text3);margin-top:3px">Urban & bold</span></div></div>
+            <div style="border-radius:20px;overflow:hidden;border:2.5px solid #F0F0F0;position:relative"><div style="aspect-ratio:4/5;background:var(--bg2);display:flex;align-items:center;justify-content:center;flex-direction:column;padding:16px"><div style="width:48px;height:48px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;margin-bottom:12px"><span style="font-size:22px;opacity:0.5">&#10022;</span></div><span style="font-size:14px;font-weight:600;color:var(--text)">Bohemian</span><span style="font-size:11px;color:var(--text3);margin-top:3px">Free-spirited</span></div><div style="position:absolute;top:10px;right:10px;width:24px;height:24px;border-radius:50%;background:#F0F0F0;display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></div></div>
+          </div>
+          <button class="d-btn d-btn-w" style="margin-top:28px">Continue</button>
+        </div>
+      </div>
+      <div class="p-label">Style Quiz</div>
+    </div>
+
+    <!-- SELFIE -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc" style="padding-top:16px">
+          <div style="display:flex;justify-content:center;gap:8px;margin-bottom:28px"><div style="width:48px;height:3px;border-radius:2px;background:#F0F0F0"></div><div style="width:48px;height:3px;border-radius:2px;background:#F0F0F0"></div><div style="width:48px;height:3px;border-radius:2px;background:var(--bg3)"></div></div>
+          <div style="text-align:center;font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:var(--text);margin-bottom:6px">Find your colors</div>
+          <div style="text-align:center;font-size:13px;color:var(--text3);margin-bottom:32px">A selfie helps us recommend your best colors</div>
+          <div style="border:1.5px dashed #444;border-radius:28px;padding:52px 24px;text-align:center;margin-bottom:24px;background:var(--bg2)">
+            <div style="width:80px;height:80px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;margin:0 auto 18px"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/></svg></div>
+            <div style="font-size:16px;font-weight:600;color:var(--text)">Take a selfie</div>
+            <div style="font-size:12px;color:var(--text3);margin-top:6px;line-height:1.6">Natural lighting · Face forward · No filters</div>
+          </div>
+          <div style="display:flex;align-items:start;gap:10px;background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:14px 16px;margin-bottom:24px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5" style="flex-shrink:0;margin-top:1px"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <div style="font-size:11px;color:var(--text2);line-height:1.5">Your photo is analyzed instantly and <strong style="color:var(--text)">never stored</strong>.</div>
+          </div>
+          <button class="d-btn d-btn-w">Upload photo</button>
+          <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--text3);font-weight:500">Skip for now</div>
+        </div>
+      </div>
+      <div class="p-label">Color Analysis</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== SECTION 2: HOME ===================== -->
+<div class="section">
+  <div class="sec-t">2. Home / Closet</div>
+  <div class="sec-d">Dashboard · Garment Grid · Add Garment</div>
+  <div class="row">
+
+    <!-- HOME -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px">
+            <div><div style="font-size:13px;color:var(--text3);font-weight:500">Good morning, Rahul</div><div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--text);margin-top:2px">My Closet</div></div>
+            <div style="display:flex;gap:8px"><div style="width:40px;height:40px;border-radius:50%;background:var(--bg2);display:flex;align-items:center;justify-content:center;position:relative;border:1px solid var(--border)"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="1.5"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><div style="position:absolute;top:8px;right:10px;width:7px;height:7px;border-radius:50%;background:var(--blush);border:2px solid var(--bg)"></div></div><div style="width:40px;height:40px;border-radius:50%;background:#F0F0F0;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div></div>
+          </div>
+          <!-- Stats -->
+          <div style="display:flex;gap:8px;margin:16px 0 20px">
+            <div style="flex:1;background:var(--bg2);border-radius:16px;padding:14px 12px;text-align:center;border:1px solid var(--border)"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--text)">47</div><div style="font-size:10px;color:var(--text3);margin-top:2px;font-weight:500;letter-spacing:0.5px;text-transform:uppercase">Items</div></div>
+            <div style="flex:1;background:var(--bg2);border-radius:16px;padding:14px 12px;text-align:center;border:1px solid var(--border)"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--sage)">12</div><div style="font-size:10px;color:var(--text3);margin-top:2px;font-weight:500;letter-spacing:0.5px;text-transform:uppercase">Outfits</div></div>
+            <div style="flex:1;background:var(--bg2);border-radius:16px;padding:14px 12px;text-align:center;border:1px solid var(--border)"><div style="font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold)">86%</div><div style="font-size:10px;color:var(--text3);margin-top:2px;font-weight:500;letter-spacing:0.5px;text-transform:uppercase">Utilized</div></div>
+          </div>
+          <!-- AI Banner — inverted to white on dark -->
+          <div style="background:#F0F0F0;border-radius:20px;padding:18px 20px;margin-bottom:20px;display:flex;align-items:center;gap:14px">
+            <div style="width:44px;height:44px;border-radius:50%;background:rgba(0,0,0,0.06);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div style="flex:1"><div style="font-size:13px;font-weight:600;color:#121212">Style tip for today</div><div style="font-size:11px;color:rgba(0,0,0,0.45);margin-top:3px">28°C sunny — try linen shirt with beige chinos.</div></div>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(0,0,0,0.25)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <!-- Search -->
+          <div class="d-search" style="margin-bottom:14px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input placeholder="Search items, colors..."><div style="width:32px;height:32px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text2)" stroke-width="1.5"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/></svg></div></div>
+          <!-- Chips -->
+          <div style="display:flex;gap:8px;overflow-x:auto;margin-bottom:18px"><div class="d-chip on">All</div><div class="d-chip">Tops <span style="color:#555;font-size:10px">18</span></div><div class="d-chip">Bottoms <span style="color:#555;font-size:10px">12</span></div><div class="d-chip">Outerwear</div><div class="d-chip">Shoes</div></div>
+          <!-- Grid -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <div style="border-radius:18px;overflow:hidden;background:var(--card);border:1px solid var(--border-solid)"><div style="aspect-ratio:3/4;background:var(--bg2);position:relative;display:flex;align-items:center;justify-content:center;font-size:40px;color:#555;opacity:0.4"><span>&#128085;</span><div style="position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(30,30,30,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="var(--blush)" stroke="var(--blush)" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><div style="position:absolute;bottom:10px;left:10px;background:rgba(30,30,30,0.75);backdrop-filter:blur(8px);padding:4px 12px;border-radius:50px;font-size:10px;font-weight:600;color:var(--text2)">Shirt</div><div style="position:absolute;bottom:10px;right:10px;background:rgba(109,175,138,0.15);backdrop-filter:blur(8px);padding:4px 8px;border-radius:50px;font-size:9px;font-weight:600;color:var(--sage)">5/5</div></div><div style="padding:12px 14px"><div style="font-size:13px;font-weight:600;color:var(--text)">Oxford Button-Down</div><div style="font-size:11px;color:var(--text3);margin-top:4px;display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#5B8DBE;border:1px solid #444"></span>Light blue · Cotton</div></div></div>
+            <div style="border-radius:18px;overflow:hidden;background:var(--card);border:1px solid var(--border-solid)"><div style="aspect-ratio:3/4;background:var(--bg2);position:relative;display:flex;align-items:center;justify-content:center;font-size:40px;color:#555;opacity:0.4"><span>&#128086;</span><div style="position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;background:rgba(30,30,30,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div><div style="position:absolute;bottom:10px;left:10px;background:rgba(30,30,30,0.75);backdrop-filter:blur(8px);padding:4px 12px;border-radius:50px;font-size:10px;font-weight:600;color:var(--text2)">Jeans</div><div style="position:absolute;bottom:10px;right:10px;background:rgba(109,175,138,0.15);backdrop-filter:blur(8px);padding:4px 8px;border-radius:50px;font-size:9px;font-weight:600;color:var(--sage)">4/5</div></div><div style="padding:12px 14px"><div style="font-size:13px;font-weight:600;color:var(--text)">Slim Fit Denim</div><div style="font-size:11px;color:var(--text3);margin-top:4px;display:flex;align-items:center;gap:6px"><span style="width:10px;height:10px;border-radius:50%;background:#2C3E50;border:1px solid #444"></span>Dark navy · Denim</div></div></div>
+          </div>
+        </div>
+        <div class="bn"><div class="bn-i on"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Closet</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg><span>Outfits</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Stylist</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Discover</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>Profile</span></div></div>
+      </div>
+      <div class="p-label">Closet — Main</div>
+    </div>
+
+    <!-- STYLIST CHAT -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc" style="display:flex;flex-direction:column;padding-bottom:10px;height:calc(100% - 44px)">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+            <div style="width:42px;height:42px;border-radius:50%;background:#F0F0F0;display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+            <div style="flex:1"><div style="font-size:15px;font-weight:600;color:var(--text)">Dresser Stylist</div><div style="font-size:11px;color:var(--sage);display:flex;align-items:center;gap:4px"><div style="width:6px;height:6px;border-radius:50%;background:var(--sage)"></div>Ready to style</div></div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column">
+            <div style="max-width:82%;padding:14px 18px;border-radius:20px;font-size:13px;line-height:1.6;margin-bottom:10px;background:var(--bg2);color:var(--text);border-bottom-left-radius:6px;border:1px solid var(--border)">
+              <div style="font-size:10px;font-weight:600;color:var(--gold);display:flex;align-items:center;gap:4px;margin-bottom:6px;letter-spacing:0.5px;text-transform:uppercase"><svg width="10" height="10" viewBox="0 0 24 24" fill="var(--gold)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Stylist</div>
+              Tell me about your event and I'll style the perfect look.
+            </div>
+            <div style="max-width:82%;padding:14px 18px;border-radius:20px;font-size:13px;line-height:1.6;margin-bottom:10px;margin-left:auto;background:#F0F0F0;color:#121212;border-bottom-right-radius:6px">Beach wedding in Goa. Evening, semi-formal.</div>
+            <div style="max-width:82%;padding:14px 18px;border-radius:20px;font-size:13px;line-height:1.6;margin-bottom:10px;background:var(--bg2);color:var(--text);border-bottom-left-radius:6px;border:1px solid var(--border)">
+              <div style="font-size:10px;font-weight:600;color:var(--gold);display:flex;align-items:center;gap:4px;margin-bottom:6px;letter-spacing:0.5px;text-transform:uppercase"><svg width="10" height="10" viewBox="0 0 24 24" fill="var(--gold)"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Stylist</div>
+              Breathable fabrics, semi-formal polish:
+              <div style="background:var(--bg3);border:1px solid var(--border);border-radius:16px;padding:14px;margin-top:10px">
+                <div style="display:flex;gap:8px;margin-bottom:10px"><div style="flex:1;aspect-ratio:3/4;background:var(--bg2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#555;opacity:0.4;border:1px solid var(--border)">&#128085;</div><div style="flex:1;aspect-ratio:3/4;background:var(--bg2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#555;opacity:0.4;border:1px solid var(--border)">&#128086;</div><div style="flex:1;aspect-ratio:3/4;background:var(--bg2);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;color:#555;opacity:0.4;border:1px solid var(--border)">&#128094;</div></div>
+                <div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:13px;font-weight:600;color:var(--text)">Breezy Elegance</div><div style="font-size:11px;color:var(--text2);margin-top:3px">Linen shirt + chinos + loafers</div></div><div style="background:rgba(109,175,138,0.12);color:var(--sage);padding:5px 12px;border-radius:50px;font-size:11px;font-weight:600;flex-shrink:0;margin-left:8px">96%</div></div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:6px;margin-bottom:10px;overflow-x:auto"><div class="d-btn-ghost" style="font-size:11px;padding:8px 14px">Work meeting</div><div class="d-btn-ghost" style="font-size:11px;padding:8px 14px">Date night</div><div class="d-btn-ghost" style="font-size:11px;padding:8px 14px">Wedding</div></div>
+          <div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-top:1px solid var(--border)">
+            <div style="flex:1;border:1px solid var(--border-solid);border-radius:50px;padding:12px 18px;font-size:13px;background:var(--bg2);color:var(--text3)">Describe your event...</div>
+            <div style="width:42px;height:42px;border-radius:50%;background:#F0F0F0;display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#121212" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="none"/></svg></div>
+          </div>
+        </div>
+      </div>
+      <div class="p-label">AI Stylist Chat</div>
+    </div>
+
+    <!-- DISCOVER -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:30px;font-weight:600;color:var(--text);margin-bottom:4px">Discover</div>
+          <div style="font-size:13px;color:var(--text3);margin-bottom:18px">Curated for your wardrobe</div>
+          <div style="background:var(--bg2);border:1px solid var(--border);border-radius:20px;padding:18px;margin-bottom:18px;display:flex;align-items:start;gap:12px">
+            <div style="width:40px;height:40px;border-radius:50%;background:var(--bg3);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--steel)" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+            <div><div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px">Wardrobe gap found</div><div style="font-size:12px;color:var(--text2);line-height:1.5">Missing a neutral layering piece.</div></div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border-solid);border-radius:20px;overflow:hidden;margin-bottom:14px">
+            <div style="height:180px;background:var(--bg2);position:relative;display:flex;align-items:center;justify-content:center;font-size:44px;color:#555;opacity:0.3">&#129507;<div style="position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(30,30,30,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></div><div style="position:absolute;bottom:12px;left:12px;background:rgba(30,30,30,0.75);backdrop-filter:blur(8px);padding:5px 12px;border-radius:50px;font-size:11px;font-weight:600;color:var(--sage)">98% match</div></div>
+            <div style="padding:14px 16px"><div style="font-size:15px;font-weight:600;color:var(--text)">Wool Blend Blazer</div><div style="font-size:12px;color:var(--text3);margin-top:3px">Mango Man</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><div style="font-size:18px;font-weight:700;color:var(--text)">&#8377;4,990</div><button class="d-btn-ghost">View item</button></div></div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border-solid);border-radius:20px;overflow:hidden;margin-bottom:14px">
+            <div style="height:180px;background:var(--bg2);position:relative;display:flex;align-items:center;justify-content:center;font-size:44px;color:#555;opacity:0.3">&#129507;<div style="position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;background:rgba(30,30,30,0.7);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg></div><div style="position:absolute;bottom:12px;left:12px;background:rgba(30,30,30,0.75);backdrop-filter:blur(8px);padding:5px 12px;border-radius:50px;font-size:11px;font-weight:600;color:var(--sage)">91% match</div></div>
+            <div style="padding:14px 16px"><div style="font-size:15px;font-weight:600;color:var(--text)">Cotton Bomber</div><div style="font-size:12px;color:var(--text3);margin-top:3px">H&M</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><div style="font-size:18px;font-weight:700;color:var(--text)">&#8377;2,999</div><button class="d-btn-ghost">View item</button></div></div>
+          </div>
+        </div>
+        <div class="bn"><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Closet</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg><span>Outfits</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Stylist</span></div><div class="bn-i on"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Discover</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>Profile</span></div></div>
+      </div>
+      <div class="p-label">Discover</div>
+    </div>
+
+    <!-- PROFILE -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-r"><div class="sb-d"></div><div class="sb-d"></div><div class="sb-d"></div></div></div>
+        <div class="sc">
+          <div style="display:flex;flex-direction:column;align-items:center;padding:10px 0 24px">
+            <div style="width:88px;height:88px;border-radius:50%;background:#F0F0F0;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:600;color:#121212;margin-bottom:12px">R</div>
+            <div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;color:var(--text)">Rahul Sharma</div>
+            <div style="margin-top:6px;background:var(--bg3);color:var(--gold);padding:5px 16px;border-radius:50px;font-size:11px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase">Warm Autumn</div>
+          </div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase">Power colors</div>
+          <div style="display:flex;gap:6px;margin-bottom:16px"><div style="flex:1;height:48px;border-radius:12px;background:#8B4513;position:relative;box-shadow:0 1px 4px rgba(0,0,0,0.3)"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-transform:uppercase;letter-spacing:0.3px">Saddle</span></div><div style="flex:1;height:48px;border-radius:12px;background:#B8651A;position:relative;box-shadow:0 1px 4px rgba(0,0,0,0.3)"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-transform:uppercase">Rust</span></div><div style="flex:1;height:48px;border-radius:12px;background:#CD853F;position:relative;box-shadow:0 1px 4px rgba(0,0,0,0.3)"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-transform:uppercase">Peru</span></div><div style="flex:1;height:48px;border-radius:12px;background:#DAA520;position:relative;box-shadow:0 1px 4px rgba(0,0,0,0.3)"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-transform:uppercase">Gold</span></div><div style="flex:1;height:48px;border-radius:12px;background:#6B8E23;position:relative;box-shadow:0 1px 4px rgba(0,0,0,0.3)"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-transform:uppercase">Olive</span></div><div style="flex:1;height:48px;border-radius:12px;background:#2E8B57;position:relative;box-shadow:0 1px 4px rgba(0,0,0,0.3)"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-transform:uppercase">Forest</span></div></div>
+          <div style="font-size:11px;font-weight:600;color:var(--text2);margin-bottom:8px;letter-spacing:1px;text-transform:uppercase">Avoid</div>
+          <div style="display:flex;gap:6px;margin-bottom:24px"><div style="flex:1;height:48px;border-radius:12px;background:#FFB6C1;opacity:0.45;position:relative"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-transform:uppercase">Pink</span></div><div style="flex:1;height:48px;border-radius:12px;background:#ADD8E6;opacity:0.45;position:relative"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-transform:uppercase">Ice blue</span></div><div style="flex:1;height:48px;border-radius:12px;background:#E6E6FA;opacity:0.45;position:relative"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(0,0,0,0.4);text-transform:uppercase">Lavender</span></div><div style="flex:1;height:48px;border-radius:12px;background:#FF00FF;opacity:0.45;position:relative"><span style="position:absolute;bottom:4px;left:0;right:0;text-align:center;font-size:7px;font-weight:600;color:rgba(255,255,255,0.9);text-transform:uppercase">Fuchsia</span></div></div>
+          <!-- Settings -->
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border)"><div><div style="font-size:14px;font-weight:500;color:var(--text)">Color-aware styling</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Prioritize best colors</div></div><div style="width:48px;height:28px;border-radius:14px;background:#F0F0F0;position:relative"><div style="width:24px;height:24px;border-radius:50%;background:#121212;position:absolute;top:2px;left:22px"></div></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border)"><div><div style="font-size:14px;font-weight:500;color:var(--text)">Weather-aware</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Factor in local weather</div></div><div style="width:48px;height:28px;border-radius:14px;background:#F0F0F0;position:relative"><div style="width:24px;height:24px;border-radius:50%;background:#121212;position:absolute;top:2px;left:22px"></div></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid var(--border)"><div><div style="font-size:14px;font-weight:500;color:var(--text)">Repeat detection</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Avoid outfit repeats</div></div><div style="width:48px;height:28px;border-radius:14px;background:var(--bg3);position:relative"><div style="width:24px;height:24px;border-radius:50%;background:var(--text3);position:absolute;top:2px;left:2px"></div></div></div>
+          <button class="d-btn d-btn-o" style="margin-top:24px">Update my photos</button>
+          <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--blush);font-weight:500">Sign out</div>
+        </div>
+        <div class="bn"><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Closet</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg><span>Outfits</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg><span>Stylist</span></div><div class="bn-i"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span>Discover</span></div><div class="bn-i on"><svg class="bn-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>Profile</span></div></div>
+      </div>
+      <div class="p-label">Profile & Colors</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===================== DARK THEME MAPPING ===================== -->
+<div style="max-width:1200px;margin:0 auto 48px">
+  <div class="sec-t" style="font-size:22px">Dark Theme Mapping Rules</div>
+  <div class="sec-d">How light → dark translation works for every element</div>
+  <div class="dev-grid">
+    <div class="dev-card">
+      <h4>Backgrounds</h4>
+      <p><code>#FFFFFF</code> → <code>#121212</code> (main bg)<br>
+      <code>#F5F5F5</code> → <code>#1E1E1E</code> (cards/surfaces)<br>
+      <code>#FAFAFA</code> → <code>#252525</code> (elevated cards)<br>
+      <code>#E8E8E8</code> → <code>#2A2A2A</code> (surface accents)</p>
+    </div>
+    <div class="dev-card">
+      <h4>Text</h4>
+      <p><code>#1A1A1A</code> → <code>#F0F0F0</code> (primary)<br>
+      <code>#666</code> → <code>#A0A0A0</code> (secondary)<br>
+      <code>#999</code> → <code>#666</code> (tertiary)<br>
+      <code>#BBB</code> → <code>#555</code> (placeholder)</p>
+    </div>
+    <div class="dev-card">
+      <h4>Borders</h4>
+      <p><code>#F0F0F0</code> → <code>rgba(255,255,255,0.08)</code> (subtle)<br>
+      <code>#E8E8E8</code> → <code>#333</code> (solid)<br>
+      Dashed borders: <code>#DDD</code> → <code>#444</code></p>
+    </div>
+    <div class="dev-card">
+      <h4>Primary Button Inversion</h4>
+      <p>Light: <code>bg #1A1A1A, text #FFF</code><br>
+      Dark: <code>bg #F0F0F0, text #121212</code><br>
+      The button inverts completely — always maximum contrast against the screen background.</p>
+    </div>
+    <div class="dev-card">
+      <h4>AI Banner Inversion</h4>
+      <p>Light: dark banner on light bg (black card)<br>
+      Dark: light banner on dark bg (white card)<br>
+      The banner always contrasts with the background — it's the visual highlight of the home screen.</p>
+    </div>
+    <div class="dev-card">
+      <h4>Accent Colors (Brightened)</h4>
+      <p>Sage: <code>#5C8A6E</code> → <code>#6DAF8A</code><br>
+      Blush: <code>#D4726A</code> → <code>#E0877F</code><br>
+      Steel: <code>#6B89A8</code> → <code>#85A3C0</code><br>
+      Gold: <code>#C4985A</code> → <code>#D4AD6A</code><br>
+      Lavender: <code>#9B8BB4</code> → <code>#B4A3CC</code><br>
+      All accents increase lightness ~15% for readability on dark.</p>
+    </div>
+    <div class="dev-card">
+      <h4>Frosted Glass (Dark)</h4>
+      <p>Light: <code>rgba(255,255,255,0.9)</code> + blur 8<br>
+      Dark: <code>rgba(30,30,30,0.7)</code> + blur 8<br>
+      Hearts, badges, bookmarks all use dark frosted glass on dark theme.</p>
+    </div>
+    <div class="dev-card">
+      <h4>Toggle Switch</h4>
+      <p>Light ON: <code>bg #1A1A1A, knob #FFF</code><br>
+      Dark ON: <code>bg #F0F0F0, knob #121212</code><br>
+      Light OFF: <code>bg #E8E8E8, knob #FFF</code><br>
+      Dark OFF: <code>bg #2A2A2A, knob #666</code></p>
+    </div>
+    <div class="dev-card">
+      <h4>Score Badge Backgrounds</h4>
+      <p>Light: <code>rgba(92,138,110,0.12)</code> sage tint<br>
+      Dark: <code>rgba(109,175,138,0.15)</code> sage tint<br>
+      Same pattern for gold and blush — slightly higher opacity on dark to maintain visibility.</p>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:48px 0;color:#666">
+  <div style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;color:#F0F0F0;margin-bottom:4px">Dresser</div>
+  <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase">Dark Theme v3.0 — 8 screens + 9 mapping rules</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dresser — Dark Theme All Screens</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* Dark theme as default */
+:root{
+  --bg:#1A1815;--bg2:#242120;--bg3:#2E2B28;
+  --text:#F5F0E8;--text2:#A09A94;--text3:#6B6560;
+  --accent:#D4935E;--accent2:#E8A872;--accent-light:#2E2520;
+  --card:#242120;--border:rgba(245,240,232,0.08);
+  --success:#4A8C6F;--info:#5B7FA5;--danger:#B85450;
+}
+
+body{font-family:'DM Sans',sans-serif;background:#0F0E0C;color:#F5F0E8;padding:40px 20px}
+
+.page-title{font-family:'Playfair Display',serif;font-size:42px;font-weight:700;text-align:center;color:var(--accent);margin-bottom:4px}
+.page-sub{text-align:center;font-size:16px;color:var(--text2);margin-bottom:48px}
+.section{max-width:1400px;margin:0 auto 60px}
+.section-title{font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:var(--text);margin-bottom:6px}
+.section-desc{font-size:13px;color:var(--text3);margin-bottom:20px}
+.screen-row{display:flex;gap:24px;overflow-x:auto;padding:0 0 20px;-webkit-overflow-scrolling:touch}
+.screen-row::-webkit-scrollbar{height:6px}
+.screen-row::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:3px}
+
+.phone{
+  flex-shrink:0;width:375px;height:812px;
+  background:var(--bg);border-radius:44px;
+  border:6px solid var(--bg3);overflow:hidden;
+  position:relative;display:flex;flex-direction:column;
+}
+.phone-label{text-align:center;font-size:12px;font-weight:600;color:var(--text2);margin-top:8px;text-transform:uppercase;letter-spacing:0.5px}
+.phone-notes{text-align:center;font-size:11px;color:var(--text3);margin-top:2px;max-width:375px}
+
+.sb{display:flex;justify-content:space-between;align-items:center;padding:14px 28px 8px;font-size:12px;font-weight:600;color:var(--text)}
+.sb-dots{display:flex;gap:4px}.sb-dot{width:4px;height:4px;border-radius:50%;background:var(--text)}
+
+.sc{flex:1;overflow-y:auto;padding:0 20px 100px}.sc::-webkit-scrollbar{display:none}
+
+.bn{position:absolute;bottom:0;left:0;right:0;background:var(--bg);border-top:0.5px solid var(--border);display:flex;justify-content:space-around;padding:10px 0 30px}
+.bn-item{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;color:var(--text3)}
+.bn-item.active{color:var(--accent)}
+.bn-icon{width:22px;height:22px}
+
+.stitle{font-family:'Playfair Display',serif;font-size:26px;font-weight:600;color:var(--text);margin:4px 0 4px}
+.ssub{font-size:13px;color:var(--text3);margin-bottom:20px}
+
+.search{display:flex;align-items:center;gap:8px;background:var(--bg2);border-radius:14px;padding:10px 14px;margin-bottom:16px}
+.search input{border:none;background:none;font-size:14px;color:var(--text);outline:none;width:100%;font-family:inherit}
+.search input::placeholder{color:var(--text3)}
+
+.chips{display:flex;gap:8px;overflow-x:auto;margin-bottom:16px}.chips::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:500;background:var(--bg2);color:var(--text2);border:0.5px solid var(--border);white-space:nowrap}
+.chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.btn{width:100%;padding:14px;border-radius:14px;background:var(--accent);color:#fff;border:none;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;margin-top:8px}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:14px;border-radius:14px;background:var(--card);border:0.5px solid var(--border);font-size:14px;font-weight:500;color:var(--text);font-family:inherit}
+.inp{width:100%;padding:14px 16px;border-radius:14px;border:0.5px solid var(--border);background:var(--bg2);font-size:14px;color:var(--text);font-family:inherit;margin-bottom:10px;outline:none}
+
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.gcard{aspect-ratio:3/4;border-radius:14px;background:var(--bg2);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--text3);opacity:0.45}
+.gtag{position:absolute;bottom:6px;left:6px;background:var(--bg3);border-radius:8px;padding:3px 8px;font-size:10px;font-weight:500;color:var(--text2);opacity:1}
+.gdot{position:absolute;top:6px;right:6px;width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.3);opacity:1}
+
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.stat{background:var(--bg2);border-radius:14px;padding:14px 12px;text-align:center}
+.stat-n{font-family:'Playfair Display',serif;font-size:22px;font-weight:600;color:var(--accent)}
+.stat-l{font-size:10px;color:var(--text3);margin-top:2px}
+
+.ocard{background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px}
+.oitems{display:flex;gap:8px;margin-bottom:10px}
+.oitem{width:60px;height:74px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:22px;color:var(--text3);opacity:0.5}
+.oscore{background:var(--accent-light);color:var(--accent2);padding:4px 10px;border-radius:10px;font-size:11px;font-weight:600}
+
+.msg{max-width:85%;padding:12px 16px;border-radius:18px;font-size:13px;line-height:1.5;margin-bottom:10px}
+.msg-u{margin-left:auto;background:var(--accent);color:#fff;border-bottom-right-radius:6px}
+.msg-a{background:var(--bg2);color:var(--text);border-bottom-left-radius:6px}
+.msg-a .al{font-size:10px;font-weight:600;color:var(--accent);display:block;margin-bottom:4px}
+
+.tag{display:inline-flex;align-items:center;gap:4px;padding:4px 12px;border-radius:12px;font-size:11px;font-weight:500;margin:0 4px 6px 0}
+.t-cat{background:var(--accent-light);color:var(--accent2)}
+.t-col{background:var(--bg3);border:0.5px solid var(--border);color:var(--text2)}
+.t-sea{background:#1a2e1f;color:#6fcf97}
+.t-for{background:#1a2433;color:#7bafdb}
+.t-fab{background:#2a1a30;color:#c78ddb}
+.t-pat{background:#2e2210;color:#e8a84c}
+
+.cal-row{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:4px}
+.cal-h{font-size:10px;color:var(--text3);text-align:center;padding:4px 0}
+.cal-d{aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--text2);border-radius:10px}
+.cal-d.has{background:var(--accent-light);color:var(--accent2);font-weight:600}
+.cal-d.today{border:1.5px solid var(--accent);font-weight:600;color:var(--accent)}
+
+.pal-label{font-size:11px;font-weight:600;color:var(--text2);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.pal-row{display:flex;gap:5px;margin-bottom:14px}
+.pal-sw{flex:1;height:44px;border-radius:10px;position:relative}
+.pal-sw span{position:absolute;bottom:3px;left:0;right:0;text-align:center;font-size:7px;font-weight:500;color:rgba(255,255,255,0.9);text-shadow:0 0.5px 2px rgba(0,0,0,0.3)}
+
+.set-item{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:0.5px solid var(--border)}
+.set-title{font-size:14px;font-weight:500;color:var(--text)}
+.set-desc{font-size:11px;color:var(--text3)}
+.tog{width:44px;height:26px;border-radius:13px;position:relative;flex-shrink:0}
+.tog-k{width:22px;height:22px;border-radius:50%;background:#fff;position:absolute;top:2px}
+
+.dcard{background:var(--card);border:0.5px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:12px}
+.dimg{height:140px;background:var(--bg2);display:flex;align-items:center;justify-content:center;font-size:36px;color:var(--text3);opacity:0.3}
+.dinfo{padding:12px 14px}
+
+.ai-sug{background:var(--bg3);border:0.5px solid var(--border);border-radius:14px;padding:12px;margin-top:8px}
+.ai-row{display:flex;gap:6px;margin-bottom:8px}
+.ai-piece{flex:1;aspect-ratio:3/4;background:var(--bg2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--text3);opacity:0.5}
+
+/* Bottom nav template */
+.bnav{position:absolute;bottom:0;left:0;right:0;background:var(--bg);border-top:0.5px solid var(--border);display:flex;justify-content:space-around;padding:10px 0 30px}
+</style>
+</head>
+<body>
+
+<h1 class="page-title">Dresser</h1>
+<p class="page-sub">Dark Theme — All Screens Reference</p>
+
+<!-- Color reference bar -->
+<div class="section" style="margin-bottom:40px">
+  <div class="section-title" style="font-size:18px;border-bottom:none;margin-bottom:12px">Dark Theme Color Reference</div>
+  <div style="display:flex;gap:8px;flex-wrap:wrap">
+    <div style="display:flex;align-items:center;gap:6px;background:var(--bg2);padding:8px 14px;border-radius:10px">
+      <div style="width:20px;height:20px;border-radius:4px;background:#1A1815;border:1px solid var(--border)"></div>
+      <span style="font-size:11px;color:var(--text2);font-family:monospace">#1A1815 bg</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;background:var(--bg2);padding:8px 14px;border-radius:10px">
+      <div style="width:20px;height:20px;border-radius:4px;background:#242120"></div>
+      <span style="font-size:11px;color:var(--text2);font-family:monospace">#242120 bg2</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;background:var(--bg2);padding:8px 14px;border-radius:10px">
+      <div style="width:20px;height:20px;border-radius:4px;background:#2E2B28"></div>
+      <span style="font-size:11px;color:var(--text2);font-family:monospace">#2E2B28 bg3</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;background:var(--bg2);padding:8px 14px;border-radius:10px">
+      <div style="width:20px;height:20px;border-radius:4px;background:#D4935E"></div>
+      <span style="font-size:11px;color:var(--text2);font-family:monospace">#D4935E accent</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;background:var(--bg2);padding:8px 14px;border-radius:10px">
+      <div style="width:20px;height:20px;border-radius:4px;background:#E8A872"></div>
+      <span style="font-size:11px;color:var(--text2);font-family:monospace">#E8A872 accent2</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;background:var(--bg2);padding:8px 14px;border-radius:10px">
+      <div style="width:20px;height:20px;border-radius:4px;background:#2E2520"></div>
+      <span style="font-size:11px;color:var(--text2);font-family:monospace">#2E2520 accentLight</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;background:var(--bg2);padding:8px 14px;border-radius:10px">
+      <div style="width:20px;height:20px;border-radius:4px;background:#F5F0E8"></div>
+      <span style="font-size:11px;color:var(--text2);font-family:monospace">#F5F0E8 text</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;background:var(--bg2);padding:8px 14px;border-radius:10px">
+      <div style="width:20px;height:20px;border-radius:4px;background:#A09A94"></div>
+      <span style="font-size:11px;color:var(--text2);font-family:monospace">#A09A94 text2</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:6px;background:var(--bg2);padding:8px 14px;border-radius:10px">
+      <div style="width:20px;height:20px;border-radius:4px;background:#6B6560"></div>
+      <span style="font-size:11px;color:var(--text2);font-family:monospace">#6B6560 text3</span>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 1. AUTH ========== -->
+<div class="section">
+  <div class="section-title">1. Authentication & Onboarding</div>
+  <div class="screen-row">
+
+    <!-- Login -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-dots"><div class="sb-dot"></div><div class="sb-dot"></div><div class="sb-dot"></div></div></div>
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;flex:1;padding:40px 24px;text-align:center">
+          <div style="font-family:'Playfair Display',serif;font-size:42px;font-weight:700;color:var(--accent);margin-bottom:4px">Dresser</div>
+          <div style="font-size:14px;color:var(--text3);margin-bottom:48px">Your AI-powered personal stylist</div>
+          <button class="gbtn">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+            Continue with Google
+          </button>
+          <div style="display:flex;align-items:center;gap:12px;width:100%;margin:20px 0;font-size:12px;color:var(--text3)"><div style="flex:1;height:0.5px;background:var(--border)"></div>or<div style="flex:1;height:0.5px;background:var(--border)"></div></div>
+          <input class="inp" placeholder="Email address">
+          <input class="inp" type="password" placeholder="Password">
+          <button class="btn" style="margin-top:16px">Sign in</button>
+          <p style="font-size:12px;color:var(--text3);margin-top:20px">Don't have an account? <span style="color:var(--accent);font-weight:500">Sign up</span></p>
+        </div>
+      </div>
+      <div class="phone-label">Login</div>
+    </div>
+
+    <!-- Style Quiz -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-dots"><div class="sb-dot"></div><div class="sb-dot"></div><div class="sb-dot"></div></div></div>
+        <div class="sc" style="padding-top:20px">
+          <div style="display:flex;justify-content:center;gap:6px;margin-bottom:24px">
+            <div style="width:40px;height:3px;border-radius:2px;background:var(--accent)"></div>
+            <div style="width:40px;height:3px;border-radius:2px;background:var(--bg3)"></div>
+            <div style="width:40px;height:3px;border-radius:2px;background:var(--bg3)"></div>
+          </div>
+          <div class="stitle" style="text-align:center;font-size:22px">What's your style?</div>
+          <div class="ssub" style="text-align:center">Select all that resonate with you</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="aspect-ratio:1;border-radius:16px;background:var(--bg2);display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid var(--accent)">
+              <span style="font-size:32px;margin-bottom:8px;opacity:0.35">&#9634;</span>
+              <span style="font-size:13px;font-weight:500;color:var(--text)">Minimalist</span>
+              <span style="font-size:10px;color:var(--text3);margin-top:2px">Clean & simple</span>
+            </div>
+            <div style="aspect-ratio:1;border-radius:16px;background:var(--bg2);display:flex;flex-direction:column;align-items:center;justify-content:center;border:0.5px solid var(--border)">
+              <span style="font-size:32px;margin-bottom:8px;opacity:0.35">&#9733;</span>
+              <span style="font-size:13px;font-weight:500;color:var(--text)">Classic</span>
+              <span style="font-size:10px;color:var(--text3);margin-top:2px">Timeless elegance</span>
+            </div>
+            <div style="aspect-ratio:1;border-radius:16px;background:var(--bg2);display:flex;flex-direction:column;align-items:center;justify-content:center;border:0.5px solid var(--border)">
+              <span style="font-size:32px;margin-bottom:8px;opacity:0.35">&#9830;</span>
+              <span style="font-size:13px;font-weight:500;color:var(--text)">Streetwear</span>
+              <span style="font-size:10px;color:var(--text3);margin-top:2px">Urban & bold</span>
+            </div>
+            <div style="aspect-ratio:1;border-radius:16px;background:var(--bg2);display:flex;flex-direction:column;align-items:center;justify-content:center;border:2px solid var(--accent)">
+              <span style="font-size:32px;margin-bottom:8px;opacity:0.35">&#10022;</span>
+              <span style="font-size:13px;font-weight:500;color:var(--text)">Bohemian</span>
+              <span style="font-size:10px;color:var(--text3);margin-top:2px">Free & creative</span>
+            </div>
+          </div>
+          <button class="btn" style="margin-top:24px">Continue</button>
+        </div>
+      </div>
+      <div class="phone-label">Style Quiz</div>
+    </div>
+
+    <!-- Selfie Upload -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-dots"><div class="sb-dot"></div><div class="sb-dot"></div><div class="sb-dot"></div></div></div>
+        <div class="sc" style="padding-top:20px">
+          <div style="display:flex;justify-content:center;gap:6px;margin-bottom:24px">
+            <div style="width:40px;height:3px;border-radius:2px;background:var(--accent)"></div>
+            <div style="width:40px;height:3px;border-radius:2px;background:var(--accent)"></div>
+            <div style="width:40px;height:3px;border-radius:2px;background:var(--bg3)"></div>
+          </div>
+          <div class="stitle" style="text-align:center;font-size:22px">Find your best colors</div>
+          <div class="ssub" style="text-align:center">Upload a well-lit selfie for personalized color analysis</div>
+          <div style="border:2px dashed var(--bg3);border-radius:24px;padding:48px 20px;text-align:center;margin-bottom:20px">
+            <div style="width:80px;height:80px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/></svg>
+            </div>
+            <div style="font-size:15px;font-weight:500;color:var(--text)">Take a selfie</div>
+            <div style="font-size:12px;color:var(--text3);margin-top:6px;line-height:1.5">Use natural lighting<br>Face the camera directly</div>
+          </div>
+          <div style="background:var(--accent-light);border-radius:12px;padding:12px 14px;margin-bottom:20px">
+            <div style="font-size:11px;color:var(--accent2);line-height:1.5">&#128274; Your photo is analyzed instantly and never stored.</div>
+          </div>
+          <button class="btn">Upload photo</button>
+          <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--accent);font-weight:500">Skip for now</div>
+        </div>
+      </div>
+      <div class="phone-label">Selfie Upload</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== 2. CLOSET ========== -->
+<div class="section">
+  <div class="section-title">2. Closet</div>
+  <div class="screen-row">
+
+    <!-- Closet Main -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-dots"><div class="sb-dot"></div><div class="sb-dot"></div><div class="sb-dot"></div></div></div>
+        <div class="sc">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div class="stitle">My closet</div>
+            <div style="width:36px;height:36px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            </div>
+          </div>
+          <div class="ssub">47 items</div>
+          <div class="stat-row"><div class="stat"><div class="stat-n">18</div><div class="stat-l">Tops</div></div><div class="stat"><div class="stat-n">12</div><div class="stat-l">Bottoms</div></div><div class="stat"><div class="stat-n">17</div><div class="stat-l">Others</div></div></div>
+          <div class="search"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input placeholder="Search your wardrobe..."></div>
+          <div class="chips"><div class="chip on">All</div><div class="chip">Tops</div><div class="chip">Bottoms</div><div class="chip">Outerwear</div><div class="chip">Footwear</div></div>
+          <div class="grid3">
+            <div class="gcard">&#128085;<div class="gtag">Shirt</div><div class="gdot" style="background:#5B8DBE"></div></div>
+            <div class="gcard">&#128086;<div class="gtag">Jeans</div><div class="gdot" style="background:#34495E"></div></div>
+            <div class="gcard">&#129507;<div class="gtag">Jacket</div><div class="gdot" style="background:#8B4513"></div></div>
+            <div class="gcard">&#128084;<div class="gtag">Formal</div><div class="gdot" style="background:#E8E0D0"></div></div>
+            <div class="gcard">&#128085;<div class="gtag">T-shirt</div><div class="gdot" style="background:#C0392B"></div></div>
+            <div class="gcard">&#128086;<div class="gtag">Chinos</div><div class="gdot" style="background:#D4A574"></div></div>
+            <div class="gcard">&#128094;<div class="gtag">Loafers</div><div class="gdot" style="background:#6B4226"></div></div>
+            <div class="gcard">&#128085;<div class="gtag">Polo</div><div class="gdot" style="background:#2E8B57"></div></div>
+            <div class="gcard">&#129507;<div class="gtag">Blazer</div><div class="gdot" style="background:#36454F"></div></div>
+          </div>
+        </div>
+        <div class="bn"><div class="bn-item active"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Closet</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg><span>Outfits</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a3 3 0 00-3 3v1a3 3 0 006 0V5a3 3 0 00-3-3z"/><path d="M19 10H5l2 11h10l2-11z"/></svg><span>Stylist</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg><span>Discover</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>Profile</span></div></div>
+      </div>
+      <div class="phone-label">Closet — Main</div>
+    </div>
+
+    <!-- Add Garment -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-dots"><div class="sb-dot"></div><div class="sb-dot"></div><div class="sb-dot"></div></div></div>
+        <div class="sc">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text)" stroke-width="2" stroke-linecap="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            <div class="stitle" style="font-size:22px;margin:0">Add garment</div>
+          </div>
+          <div class="ssub">Upload a photo and we'll do the rest</div>
+          <div style="border:2px dashed var(--bg3);border-radius:20px;padding:36px 20px;text-align:center;margin-bottom:20px">
+            <div style="width:48px;height:48px;border-radius:50%;background:var(--accent-light);display:flex;align-items:center;justify-content:center;margin:0 auto 12px">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            </div>
+            <div style="font-size:14px;font-weight:500;color:var(--text)">Tap to upload photo</div>
+            <div style="font-size:12px;color:var(--text3);margin-top:4px">Use a plain background for best results</div>
+          </div>
+          <div style="font-size:13px;font-weight:600;color:var(--text);margin-bottom:10px">AI-detected tags</div>
+          <div style="background:var(--card);border:0.5px solid var(--border);border-radius:16px;padding:14px;margin-bottom:16px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+              <div style="width:52px;height:64px;border-radius:10px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--text3);opacity:.5">&#128085;</div>
+              <div><div style="font-size:14px;font-weight:600;color:var(--text)">Oxford button-down</div><div style="font-size:11px;color:var(--text3)">Confidence: 94%</div></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap">
+              <span class="tag t-cat">Topwear</span><span class="tag t-cat">Shirt</span>
+              <span class="tag t-col"><span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#5B8DBE;margin-right:3px"></span>Light blue</span>
+              <span class="tag t-sea">All season</span><span class="tag t-for">Formality: 3/5</span>
+              <span class="tag t-fab">Cotton</span><span class="tag t-pat">Solid</span>
+            </div>
+          </div>
+          <button class="btn">Save to wardrobe</button>
+        </div>
+        <div class="bn"><div class="bn-item active"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Closet</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg><span>Outfits</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a3 3 0 00-3 3v1a3 3 0 006 0V5a3 3 0 00-3-3z"/><path d="M19 10H5l2 11h10l2-11z"/></svg><span>Stylist</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg><span>Discover</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>Profile</span></div></div>
+      </div>
+      <div class="phone-label">Add Garment</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== 3. CORE TABS ========== -->
+<div class="section">
+  <div class="section-title">3. Core Tabs</div>
+  <div class="screen-row">
+
+    <!-- Outfits -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-dots"><div class="sb-dot"></div><div class="sb-dot"></div><div class="sb-dot"></div></div></div>
+        <div class="sc">
+          <div class="stitle" style="font-size:22px">Saved outfits</div>
+          <div class="ssub">Your curated looks</div>
+          <div class="ocard"><div class="oitems"><div class="oitem">&#128085;</div><div class="oitem">&#128086;</div><div class="oitem">&#128094;</div><div class="oitem">&#9201;</div></div><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:14px;font-weight:600;color:var(--text)">Breezy elegance</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Beach wedding · Goa</div></div><div class="oscore">96%</div></div></div>
+          <div class="ocard"><div class="oitems"><div class="oitem">&#128084;</div><div class="oitem">&#128086;</div><div class="oitem">&#128094;</div></div><div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:14px;font-weight:600;color:var(--text)">Power meeting</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Board presentation</div></div><div class="oscore">92%</div></div></div>
+          <div style="font-size:14px;font-weight:600;color:var(--text);margin:20px 0 12px">Wear calendar</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            <span style="font-size:14px;font-weight:600;color:var(--text)">March 2026</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--text3)" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </div>
+          <div class="cal-row"><div class="cal-h">M</div><div class="cal-h">T</div><div class="cal-h">W</div><div class="cal-h">T</div><div class="cal-h">F</div><div class="cal-h">S</div><div class="cal-h">S</div></div>
+          <div class="cal-row"><div class="cal-d">1</div><div class="cal-d has">2</div><div class="cal-d">3</div><div class="cal-d has">4</div><div class="cal-d">5</div><div class="cal-d has">6</div><div class="cal-d">7</div></div>
+          <div class="cal-row"><div class="cal-d has">8</div><div class="cal-d">9</div><div class="cal-d has">10</div><div class="cal-d">11</div><div class="cal-d">12</div><div class="cal-d">13</div><div class="cal-d has">14</div></div>
+          <div class="cal-row"><div class="cal-d">15</div><div class="cal-d has">16</div><div class="cal-d">17</div><div class="cal-d">18</div><div class="cal-d has">19</div><div class="cal-d">20</div><div class="cal-d">21</div></div>
+          <div class="cal-row"><div class="cal-d">22</div><div class="cal-d">23</div><div class="cal-d">24</div><div class="cal-d today">25</div><div class="cal-d">26</div><div class="cal-d">27</div><div class="cal-d">28</div></div>
+        </div>
+        <div class="bn"><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Closet</span></div><div class="bn-item active"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg><span>Outfits</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a3 3 0 00-3 3v1a3 3 0 006 0V5a3 3 0 00-3-3z"/><path d="M19 10H5l2 11h10l2-11z"/></svg><span>Stylist</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg><span>Discover</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>Profile</span></div></div>
+      </div>
+      <div class="phone-label">Outfits + Calendar</div>
+    </div>
+
+    <!-- Stylist Chat -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-dots"><div class="sb-dot"></div><div class="sb-dot"></div><div class="sb-dot"></div></div></div>
+        <div class="sc" style="display:flex;flex-direction:column;padding-bottom:10px;height:calc(100% - 44px)">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px">
+            <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#A85D2E);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="#fff"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+            <div><div style="font-size:15px;font-weight:600;color:var(--text)">Dresser stylist</div><div style="font-size:11px;color:var(--success)">Online</div></div>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column">
+            <div class="msg msg-a"><span class="al">Dresser AI</span>Hey! Tell me about your event and I'll put together the perfect outfit from your wardrobe.</div>
+            <div class="msg msg-u">Beach wedding in Goa next Saturday. Evening, semi-formal.</div>
+            <div class="msg msg-a">
+              <span class="al">Dresser AI</span>For a Goa beach wedding evening, breathable fabrics with semi-formal polish.
+              <div class="ai-sug">
+                <div class="ai-row"><div class="ai-piece">&#128085;</div><div class="ai-piece">&#128086;</div><div class="ai-piece">&#128094;</div></div>
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <div><div style="font-size:12px;font-weight:600;color:var(--text)">Breezy elegance</div><div style="font-size:10px;color:var(--text2);line-height:1.4;margin-top:2px">Linen shirt + beige chinos + brown loafers.</div></div>
+                  <div class="oscore" style="flex-shrink:0;margin-left:8px">96%</div>
+                </div>
+              </div>
+            </div>
+            <div class="msg msg-u">Love it! Any alternatives?</div>
+          </div>
+          <div style="display:flex;gap:6px;margin-bottom:8px;overflow-x:auto">
+            <div class="chip" style="font-size:11px;padding:5px 12px;background:var(--accent-light);color:var(--accent2);border:none">Work meeting</div>
+            <div class="chip" style="font-size:11px;padding:5px 12px;background:var(--accent-light);color:var(--accent2);border:none">Date night</div>
+            <div class="chip" style="font-size:11px;padding:5px 12px;background:var(--accent-light);color:var(--accent2);border:none">Wedding</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px;padding:4px 0;border-top:0.5px solid var(--border)">
+            <div style="flex:1;border:0.5px solid var(--border);border-radius:22px;padding:10px 16px;font-size:13px;background:var(--bg2);color:var(--text3)">Describe your event...</div>
+            <div style="width:38px;height:38px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2" fill="none"/></svg></div>
+          </div>
+        </div>
+      </div>
+      <div class="phone-label">AI Stylist Chat</div>
+    </div>
+
+    <!-- Discover -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-dots"><div class="sb-dot"></div><div class="sb-dot"></div><div class="sb-dot"></div></div></div>
+        <div class="sc">
+          <div class="stitle" style="font-size:22px">Discover</div>
+          <div class="ssub">Curated picks for your wardrobe gaps</div>
+          <div style="background:var(--accent-light);border-radius:14px;padding:14px;margin-bottom:16px">
+            <div style="font-size:12px;font-weight:600;color:var(--accent2);margin-bottom:4px">Wardrobe gap detected</div>
+            <div style="font-size:13px;color:var(--text2);line-height:1.5">You're missing a neutral layering piece for cooler weather.</div>
+          </div>
+          <div class="dcard"><div class="dimg">&#129507;</div><div class="dinfo"><div style="font-size:14px;font-weight:600;color:var(--text)">Wool blend blazer</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Mango Man</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><div style="font-size:16px;font-weight:600;color:var(--accent)">&#8377;4,990</div><span style="font-size:10px;font-weight:600;color:#6fcf97;background:#1a2e1f;padding:3px 8px;border-radius:8px">98% match</span></div></div></div>
+          <div class="dcard"><div class="dimg">&#129507;</div><div class="dinfo"><div style="font-size:14px;font-weight:600;color:var(--text)">Cotton bomber jacket</div><div style="font-size:11px;color:var(--text3);margin-top:2px">H&M</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><div style="font-size:16px;font-weight:600;color:var(--accent)">&#8377;2,999</div><span style="font-size:10px;font-weight:600;color:#6fcf97;background:#1a2e1f;padding:3px 8px;border-radius:8px">91% match</span></div></div></div>
+          <div class="dcard"><div class="dimg">&#129507;</div><div class="dinfo"><div style="font-size:14px;font-weight:600;color:var(--text)">Linen overshirt</div><div style="font-size:11px;color:var(--text3);margin-top:2px">Zara</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><div style="font-size:16px;font-weight:600;color:var(--accent)">&#8377;3,490</div><span style="font-size:10px;font-weight:600;color:#6fcf97;background:#1a2e1f;padding:3px 8px;border-radius:8px">87% match</span></div></div></div>
+        </div>
+        <div class="bn"><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Closet</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg><span>Outfits</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a3 3 0 00-3 3v1a3 3 0 006 0V5a3 3 0 00-3-3z"/><path d="M19 10H5l2 11h10l2-11z"/></svg><span>Stylist</span></div><div class="bn-item active"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg><span>Discover</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>Profile</span></div></div>
+      </div>
+      <div class="phone-label">Discover</div>
+    </div>
+
+    <!-- Profile -->
+    <div>
+      <div class="phone">
+        <div class="sb"><span>9:41</span><div class="sb-dots"><div class="sb-dot"></div><div class="sb-dot"></div><div class="sb-dot"></div></div></div>
+        <div class="sc">
+          <div style="display:flex;flex-direction:column;align-items:center;padding:10px 0 20px">
+            <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#A85D2E);display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:600;color:#fff;margin-bottom:10px">R</div>
+            <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:600;color:var(--text)">Rahul Sharma</div>
+            <div style="font-size:12px;color:var(--accent);font-weight:500;margin-top:2px">Warm Autumn</div>
+          </div>
+          <div class="pal-label">Your power colors</div>
+          <div class="pal-row"><div class="pal-sw" style="background:#8B4513"><span>Saddle</span></div><div class="pal-sw" style="background:#B8651A"><span>Rust</span></div><div class="pal-sw" style="background:#CD853F"><span>Peru</span></div><div class="pal-sw" style="background:#DAA520"><span>Gold</span></div><div class="pal-sw" style="background:#6B8E23"><span>Olive</span></div><div class="pal-sw" style="background:#2E8B57"><span>Forest</span></div></div>
+          <div class="pal-label">Safe neutrals</div>
+          <div class="pal-row"><div class="pal-sw" style="background:#F5F5DC"><span>Cream</span></div><div class="pal-sw" style="background:#D2B48C"><span>Tan</span></div><div class="pal-sw" style="background:#808069"><span>Olive grey</span></div><div class="pal-sw" style="background:#36454F"><span>Charcoal</span></div></div>
+          <div class="pal-label">Colors to avoid</div>
+          <div class="pal-row"><div class="pal-sw" style="background:#FFB6C1;opacity:0.6"><span>Pink</span></div><div class="pal-sw" style="background:#ADD8E6;opacity:0.6"><span>Ice blue</span></div><div class="pal-sw" style="background:#E6E6FA;opacity:0.6"><span>Lavender</span></div><div class="pal-sw" style="background:#FF00FF;opacity:0.6"><span>Fuchsia</span></div></div>
+          <div class="set-item"><div><div class="set-title">Color-aware recommendations</div><div class="set-desc">Prioritize your best colors</div></div><div class="tog" style="background:var(--accent)"><div class="tog-k" style="left:20px"></div></div></div>
+          <div class="set-item"><div><div class="set-title">Weather-aware styling</div><div class="set-desc">Factor in local weather</div></div><div class="tog" style="background:var(--accent)"><div class="tog-k" style="left:20px"></div></div></div>
+          <div class="set-item"><div><div class="set-title">Repeat detection</div><div class="set-desc">Avoid recent outfit repeats</div></div><div class="tog" style="background:var(--bg3)"><div class="tog-k" style="left:2px"></div></div></div>
+          <button class="btn" style="margin-top:20px">Update my photos</button>
+          <div style="text-align:center;margin-top:16px;font-size:13px;color:var(--danger);font-weight:500">Sign out</div>
+        </div>
+        <div class="bn"><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span>Closet</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4M4 7l8 4M4 7v10l8 4m0-10v10"/></svg><span>Outfits</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a3 3 0 00-3 3v1a3 3 0 006 0V5a3 3 0 00-3-3z"/><path d="M19 10H5l2 11h10l2-11z"/></svg><span>Stylist</span></div><div class="bn-item"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6M11 8v6"/></svg><span>Discover</span></div><div class="bn-item active"><svg class="bn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/></svg><span>Profile</span></div></div>
+      </div>
+      <div class="phone-label">Profile & Colors</div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Dark theme specific notes -->
+<div class="section">
+  <div class="section-title" style="font-size:18px;border-bottom:none">Dark Theme Mapping Rules</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:16px">
+    <div style="background:var(--bg2);border-radius:14px;padding:16px;border:0.5px solid var(--border)">
+      <div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:6px">Backgrounds</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.6">#FDFAF6 → #1A1815 (primary)<br>#F5F0E8 → #242120 (secondary/cards)<br>#EDE7DB → #2E2B28 (tertiary/borders)<br>#FFFFFF → #242120 (elevated cards)</div>
+    </div>
+    <div style="background:var(--bg2);border-radius:14px;padding:16px;border:0.5px solid var(--border)">
+      <div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:6px">Text</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.6">#1A1815 → #F5F0E8 (primary)<br>#6B6560 → #A09A94 (secondary)<br>#9B9590 → #6B6560 (tertiary)</div>
+    </div>
+    <div style="background:var(--bg2);border-radius:14px;padding:16px;border:0.5px solid var(--border)">
+      <div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:6px">Accent</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.6">#C67D4A → #D4935E (primary)<br>#A85D2E → #E8A872 (dark/text)<br>#F5E6D8 → #2E2520 (light bg)</div>
+    </div>
+    <div style="background:var(--bg2);border-radius:14px;padding:16px;border:0.5px solid var(--border)">
+      <div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:6px">Semantic Tags (Dark)</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.6">Season: bg #1a2e1f, text #6fcf97<br>Formality: bg #1a2433, text #7bafdb<br>Fabric: bg #2a1a30, text #c78ddb<br>Pattern: bg #2e2210, text #e8a84c<br>Match badge: bg #1a2e1f, text #6fcf97</div>
+    </div>
+    <div style="background:var(--bg2);border-radius:14px;padding:16px;border:0.5px solid var(--border)">
+      <div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:6px">Borders</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.6">Light: rgba(26,24,21, 0.08)<br>Dark: rgba(245,240,232, 0.08)<br>Same opacity, inverted base color.<br>Dashed borders use #2E2B28 (bg3).</div>
+    </div>
+    <div style="background:var(--bg2);border-radius:14px;padding:16px;border:0.5px solid var(--border)">
+      <div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:6px">Key Principle</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.6">Warm dark, never cold. Background is dark brown, not black (#000). The app should feel like a dimly lit boutique, not a dark terminal. Color swatches stay the same in both modes.</div>
+    </div>
+  </div>
+</div>
+
+<div style="text-align:center;padding:40px 0;color:var(--text3);font-size:13px">
+  <div style="font-family:'Playfair Display',serif;font-size:24px;font-weight:600;color:var(--accent);margin-bottom:4px">Dresser</div>
+  Dark Theme Screens v1.0 — 10 screens + color mapping rules
+</div>
+
+</body>
+</html>
